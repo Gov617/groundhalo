@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GroundHalo — Real-time field visibility</title>
+  <meta name="description" content="GroundHalo is the real-time visibility layer for field operations. Integrates with VAN and NationBuilder." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="wrap">
+    <nav class="nav">
+      <div class="brand">GroundHalo</div>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#beta">Beta</a>
+        <a class="btn small" href="mailto:info@groundhalo.com?subject=GroundHalo%20Beta">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Real-time visibility for field operations.</h1>
+        <p class="sub">
+          GroundHalo connects to <strong>VAN</strong> and <strong>NationBuilder</strong> to give field directors live clarity on
+          shifts, turf, and activity — as it happens.
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="#beta">Join the beta</a>
+          <a class="btn ghost" href="#features">See features</a>
+        </div>
+        <p class="micro">
+          Built for campaigns, ballot initiatives, and civic teams that need clean execution.
+        </p>
+      </div>
+      <div class="hero-card" aria-hidden="true">
+        <div class="card-top">
+          <div class="dot green"></div><div class="dot yellow"></div><div class="dot red"></div>
+          <span class="card-title">Field Director Dashboard</span>
+        </div>
+        <div class="card-body">
+          <div class="kpi">
+            <span class="kpi-label">On turf</span>
+            <span class="kpi-value">12</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-label">Off turf</span>
+            <span class="kpi-value">2</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-label">No ping today</span>
+            <span class="kpi-value">1</span>
+          </div>
+          <div class="map">
+            <div class="pin p1"></div>
+            <div class="pin p2"></div>
+            <div class="pin p3"></div>
+            <div class="pin p4"></div>
+          </div>
+          <div class="note">Live map • Shift status • Alerts</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section">
+      <h2>How it works</h2>
+      <div class="grid3">
+        <div class="panel">
+          <h3>Connect your tools</h3>
+          <p>Integrate with VAN and NationBuilder so your field plan and data stay where they belong.</p>
+        </div>
+        <div class="panel">
+          <h3>Run shifts in real time</h3>
+          <p>Canvassers use a native mobile app for clock-in/out, turf, and quick communication.</p>
+        </div>
+        <div class="panel">
+          <h3>See everything live</h3>
+          <p>Directors get a single command view: who’s active, where they are, and what’s moving.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <h2>What you get in v1</h2>
+      <div class="grid2">
+        <div class="panel">
+          <h3>Dashboard (web)</h3>
+          <ul>
+            <li>Live map with on-turf / off-turf status</li>
+            <li>Shift activity + “no ping” alerts</li>
+            <li>Simple KPIs by team, turf, and time</li>
+            <li>Exportable reports for leadership</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Canvasser app (native)</h3>
+          <ul>
+            <li>Clock in/out and shift reminders</li>
+            <li>Turf assignment and navigation</li>
+            <li>Quick message to HQ</li>
+            <li>Battery-friendly location pings</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="beta" class="section beta">
+      <h2>Join the beta</h2>
+      <p class="sub">
+        Looking for 3–5 teams to pilot GroundHalo. If you’re a field director who wants real-time clarity, we want you.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn" href="mailto:info@groundhalo.com?subject=GroundHalo%20Beta%20Request&body=Name%3A%0AOrg%2FCampaign%3A%0ACity%2FState%3A%0ATeam%20size%3A%0AWhat%20tools%20do%20you%20use%3A%20(VAN%2C%20NationBuilder%2C%20other)%0A">
+          Email for beta access
+        </a>
+        <a class="btn ghost" href="https://forms.gle/REPLACE_WITH_YOUR_FORM" target="_blank" rel="noreferrer noopener">
+          Or use the signup form
+        </a>
+      </div>
+
+      <p class="micro">
+        Prefer the form? Replace the Google Form link in the code with yours.
+      </p>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-grid">
+        <div>
+          <div class="brand">GroundHalo</div>
+          <div class="muted">Real-time field visibility.</div>
+        </div>
+        <div class="muted">
+          <div><a href="mailto:info@groundhalo.com">info@groundhalo.com</a></div>
+          <div class="tiny">© <span id="y"></span> GroundHalo</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
