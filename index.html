@@ -1,122 +1,152 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GroundHalo – Field Operations Platform</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', system-ui, sans-serif; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GroundHalo — See the field. Run the field.</title>
+  <meta name="description" content="GroundHalo is the monitoring layer for field teams: opt-in shift tracking + real-time map visibility + progress updates every 5–10 minutes." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen">
 
-  <!-- Navbar -->
-  <nav class="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="text-2xl font-bold tracking-tight text-teal-400">GroundHalo</div>
-      <div class="space-x-6">
-        <a href="#features" class="text-slate-300 hover:text-teal-400 transition">Features</a>
-        <a href="#signup" class="px-5 py-2 bg-teal-600 hover:bg-teal-500 text-white rounded-md transition font-medium">Join Beta</a>
-      </div>
-    </div>
-  </nav>
+<body>
 
-  <!-- Hero -->
-  <header class="pt-32 pb-20 md:pt-48 md:pb-32 text-center">
-    <div class="container mx-auto px-6">
-      <div class="inline-block mb-6 px-4 py-1 bg-teal-950/50 border border-teal-800/50 rounded-full text-teal-400 text-sm font-medium">
-        Private Beta – Limited Access
-      </div>
+<header class="navbar">
+  <div class="container nav-inner">
+    <img src="assets/groundhalo-logo.png" alt="GroundHalo Logo" class="logo" />
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#beta" class="btn-outline">Request Beta</a>
+    </nav>
+  </div>
+</header>
 
-      <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-        Streamline Your Field Operations
-      </h1>
-
-      <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-10">
-        GroundHalo is the modern platform for managing teams, assets, workflows, and real-time visibility in field operations.
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <h1>Binoculars for Field Directors.</h1>
+      <p>
+        See who’s active, where they are, and whether progress is moving —
+        with opt-in shift tracking and scheduled updates every 5–10 minutes.
       </p>
 
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#signup"
-           class="px-8 py-4 bg-teal-600 hover:bg-teal-500 font-semibold rounded-lg transition text-lg shadow-md shadow-teal-900/30">
-          Join Private Beta
-        </a>
-        <a href="mailto:hello@groundhalo.com"
-           class="px-8 py-4 border border-slate-700 hover:border-slate-500 text-slate-300 font-medium rounded-lg transition text-lg">
-          Contact Sales
-        </a>
+      <div class="cta">
+        <a href="#beta" class="btn-primary">Request Beta Access</a>
+        <a href="#how" class="btn-ghost">See How It Works</a>
       </div>
 
-      <p class="mt-8 text-slate-400 text-sm">
-        Trusted by field service teams • No credit card required for beta
+      <p class="sub-note">
+        Tracking only runs during active shifts and stops at clock-out.
       </p>
     </div>
-  </header>
 
-  <!-- Features -->
-  <section id="features" class="py-20 border-t border-slate-800 bg-slate-900/50">
-    <div class="container mx-auto px-6">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-slate-100">
-        Built for Real-World Field Operations
-      </h2>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-8 hover:border-teal-600/50 transition">
-          <div class="text-4xl mb-4 text-teal-400">01</div>
-          <h3 class="text-xl font-semibold mb-3">Real-Time Asset & Team Tracking</h3>
-          <p class="text-slate-400">Live location, status updates, and dispatch for vehicles, equipment, and personnel.</p>
-        </div>
-
-        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-8 hover:border-teal-600/50 transition">
-          <div class="text-4xl mb-4 text-teal-400">02</div>
-          <h3 class="text-xl font-semibold mb-3">Workflow Automation</h3>
-          <p class="text-slate-400">Automate job assignments, checklists, approvals, and escalations to reduce manual work.</p>
-        </div>
-
-        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-8 hover:border-teal-600/50 transition">
-          <div class="text-4xl mb-4 text-teal-400">03</div>
-          <h3 class="text-xl font-semibold mb-3">Analytics & Reporting</h3>
-          <p class="text-slate-400">Dashboards with KPIs, utilization insights, compliance tracking, and exportable reports.</p>
-        </div>
-
-        <!-- Add 3-6 more cards as needed for your actual features -->
+    <div class="hero-card">
+      <div class="status-row">
+        <span class="status active">Active</span>
+        <span class="status stale">Stale</span>
+        <span class="status off">Off Shift</span>
+      </div>
+      <div class="mock-map">
+        <div class="pin"></div>
+        <div class="pin pin2"></div>
+        <div class="trail"></div>
+      </div>
+      <div class="mock-footer">
+        <span>VAN updated 7 min ago</span>
+        <span>Location updated 3 min ago</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Beta CTA -->
-  <section id="signup" class="py-20 text-center border-t border-slate-800">
-    <div class="container mx-auto px-6">
-      <h2 class="text-3xl md:text-4xl font-bold mb-6">
-        Get Early Access to GroundHalo
-      </h2>
-      <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-10">
-        Join our private beta to experience streamlined field ops management. Help shape the product while getting priority access.
-      </p>
-
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfzIvZv9VEdr6uy26zX1sOjDggZx_EKvineDxARfNMieITAHA/viewform?usp=sharing&ouid=100318277510299996224"
-         target="_blank"
-         class="inline-block px-10 py-5 bg-teal-600 hover:bg-teal-500 font-bold text-xl rounded-lg transition shadow-lg shadow-teal-900/30">
-         Sign Up for Beta Access
-      </a>
-
-      <p class="mt-8 text-slate-400">
-        Questions? Email us at <a href="mailto:hello@groundhalo.com" class="text-teal-400 hover:underline">hello@groundhalo.com</a>
-      </p>
+<section id="features" class="section">
+  <div class="container">
+    <h2>What GroundHalo Does</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Real-Time Mapping</h3>
+        <p>Monitor canvasser locations live with clear status indicators.</p>
+      </div>
+      <div class="card">
+        <h3>Status & Alerts</h3>
+        <p>See who’s stale, inactive, or off shift instantly.</p>
+      </div>
+      <div class="card">
+        <h3>Progress Monitoring</h3>
+        <p>Refresh doors and contacts every 5–10 minutes.</p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer class="py-12 text-center border-t border-slate-800 bg-slate-950">
-    <p class="text-slate-500">&copy; 2026 GroundHalo. All rights reserved.</p>
-    <p class="mt-2 text-sm">
-      <a href="mailto:hello@groundhalo.com" class="text-slate-400 hover:text-teal-400">hello@groundhalo.com</a>
+<section id="how" class="section dark">
+  <div class="container">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <span>1</span>
+        <p>Create lists in NGP / NationBuilder.</p>
+      </div>
+      <div class="step">
+        <span>2</span>
+        <p>Canvassers opt in and start shift tracking.</p>
+      </div>
+      <div class="step">
+        <span>3</span>
+        <p>Control Center shows real-time visibility.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="privacy" class="section">
+  <div class="container">
+    <h2>Privacy & Trust</h2>
+    <p class="center">
+      Shift-based opt-in tracking. Auto-stop protection.
+      No off-shift tracking. Built for accountability, not surveillance.
     </p>
-  </footer>
+  </div>
+</section>
+
+<section id="beta" class="section dark">
+  <div class="container beta">
+    <h2>Request Early Access</h2>
+    <p>We’re piloting with small field teams now.</p>
+
+    <div class="form-embed">
+      <iframe 
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfzIvZv9VEdr6uy26zX1sOjDggZx_EKvineDxARfNMieITAHA/viewform?embedded=true" 
+        width="100%" 
+        height="900" 
+        frameborder="0" 
+        marginheight="0" 
+        marginwidth="0">
+        Loading…
+      </iframe>
+    </div>
+
+    <p class="form-note">
+      Can’t see the form? 
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfzIvZv9VEdr6uy26zX1sOjDggZx_EKvineDxARfNMieITAHA/viewform" target="_blank">
+        Open it in a new tab
+      </a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <img src="assets/groundhalo-logo.png" alt="GroundHalo Logo" class="logo" />
+    <p><a href="mailto:hello@groundhalo.com">hello@groundhalo.com</a></p>
+    <p>© <span id="year"></span> GroundHalo</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
