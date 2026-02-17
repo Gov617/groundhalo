@@ -4,172 +4,161 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GroundHalo — See the field. Run the field.</title>
-  <meta name="description" content="GroundHalo is the monitoring layer for field teams. Opt-in shift tracking, live visibility, and 5–10 minute progress sync." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="GroundHalo is the monitoring layer for field teams: shift-based opt-in tracking, live visibility, and 5–10 minute progress sync." />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 
 <body>
-<header class="navbar">
-  <div class="container nav-inner">
-    <a class="brand" href="#top" aria-label="GroundHalo home">
-      <img src="assets/groundhalo-logo.png" alt="GroundHalo Logo" class="logo" />
-    </a>
-
-    <nav class="nav">
-      <a href="#features">Features</a>
-      <a href="#beta" class="btn-outline">Request Beta</a>
-    </nav>
-  </div>
-</header>
-
-<main id="top">
-  <section class="hero">
-    <div class="container hero-inner">
-      <p class="kicker">Monitoring-only Control Center</p>
-
-      <h1>See the Field. Run the Field.</h1>
-
-      <p class="hero-sub">
-        GroundHalo gives field directors real visibility: who’s active, who’s stale,
-        and whether progress is moving — without micromanaging.
-      </p>
-
-      <div class="hero-cta">
-        <a
-          class="btn-primary big-btn"
-          href="https://docs.google.com/forms/d/e/1FAIpQLSfzIvZv9VEdr6uy26zX1sOjDggZx_EKvineDxARfNMieITAHA/viewform"
-          target="_blank"
-          rel="noopener"
-        >
-          Join the Beta
-        </a>
-        <a class="btn-ghost" href="#features">See features</a>
-      </div>
-
-      <div class="hero-badges">
-        <span class="pill"><span class="dot ok"></span> Shift-based opt in</span>
-        <span class="pill"><span class="dot warn"></span> Stale and no-ping alerts</span>
-        <span class="pill"><span class="dot brand"></span> Progress sync 5–10 min</span>
-      </div>
-
-      <p class="sub-note">
-        Questions? <a href="mailto:hello@groundhalo.com">hello@groundhalo.com</a>
-      </p>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top" aria-label="GroundHalo home">
+        <img src="/assets/groundhalo-logo.png" alt="GroundHalo Logo" class="logo" />
+      </a>
+      <nav class="nav">
+        <a href="#features">Features</a>
+        <a href="#beta" class="btn btn-outline">Request Beta</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <section id="features" class="section">
-    <div class="container">
-      <div class="section-head">
-        <h2>Built for real field operations</h2>
-        <p class="lead">
-          Keep your existing canvassing workflow. GroundHalo is the missing monitoring layer.
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="kicker">Monitoring-only Control Center</p>
+        <h1>See the Field. Run the Field.</h1>
+        <p class="subhead">
+          GroundHalo gives field directors real visibility: who’s active, who’s stale,
+          and whether progress is moving — without micromanaging.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn btn-primary"
+             href="https://docs.google.com/forms/d/e/1FAIpQLSfzIvZv9VEdr6uy26zX1sOjDggZx_EKvineDxARfNMieITAHA/viewform"
+             target="_blank" rel="noopener">
+            Join the Beta
+          </a>
+          <a class="btn btn-ghost" href="#features">See features</a>
+        </div>
+
+        <div class="pill-row">
+          <span class="pill"><span class="dot ok"></span> Shift-based opt in</span>
+          <span class="pill"><span class="dot warn"></span> Stale + no-ping alerts</span>
+          <span class="pill"><span class="dot brand"></span> Progress sync 5–10 min</span>
+        </div>
+
+        <p class="fineprint">
+          Questions? <a href="mailto:hello@groundhalo.com">hello@groundhalo.com</a>
         </p>
       </div>
+    </section>
 
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="icon">🧭</div>
-          <h3>Real-time visibility</h3>
-          <p>See active, stale, and off-shift canvassers at a glance.</p>
-          <ul>
-            <li>Status indicators</li>
-            <li>Location freshness</li>
-            <li>Accuracy checks</li>
-          </ul>
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Built for real field operations</h2>
+          <p class="lead">
+            Keep your existing canvassing workflow. GroundHalo is the missing monitoring layer.
+          </p>
         </div>
 
-        <div class="feature-card">
-          <div class="icon">🗺️</div>
-          <h3>Live map monitoring</h3>
-          <p>Clean map view that doesn’t turn into spaghetti.</p>
-          <ul>
-            <li>Markers by default</li>
-            <li>Click → 30 min trail</li>
-            <li>Full shift trail on demand</li>
-          </ul>
-        </div>
+        <div class="grid">
+          <article class="card">
+            <div class="icon">🧭</div>
+            <h3>Real-time visibility</h3>
+            <p>See active, stale, and off-shift canvassers at a glance.</p>
+            <ul>
+              <li>Status indicators</li>
+              <li>Location freshness</li>
+              <li>Accuracy checks</li>
+            </ul>
+          </article>
 
-        <div class="feature-card">
-          <div class="icon">📈</div>
-          <h3>Progress sync</h3>
-          <p>Scheduled updates so you’re never flying blind.</p>
-          <ul>
-            <li>Doors + contacts rollups</li>
-            <li>5–10 min refresh</li>
-            <li>Data freshness labels</li>
-          </ul>
-        </div>
+          <article class="card">
+            <div class="icon">🗺️</div>
+            <h3>Live map monitoring</h3>
+            <p>Clean map view that doesn’t turn into spaghetti.</p>
+            <ul>
+              <li>Markers by default</li>
+              <li>Click → trail view</li>
+              <li>Clutter-free monitoring</li>
+            </ul>
+          </article>
 
-        <div class="feature-card">
-          <div class="icon">🔔</div>
-          <h3>Alerts that matter</h3>
-          <p>Catch issues early and save the shift.</p>
-          <ul>
-            <li>No ping today</li>
-            <li>Stale during shift</li>
-            <li>Auto-stop after shift ends</li>
-          </ul>
-        </div>
+          <article class="card">
+            <div class="icon">📈</div>
+            <h3>Progress sync</h3>
+            <p>Scheduled updates so you’re never flying blind.</p>
+            <ul>
+              <li>Doors + contacts rollups</li>
+              <li>5–10 minute refresh</li>
+              <li>Freshness indicators</li>
+            </ul>
+          </article>
 
-        <div class="feature-card">
-          <div class="icon">🔌</div>
-          <h3>Integrations</h3>
-          <p>Build lists where you already work. Monitor execution here.</p>
-          <ul>
-            <li>NGP VAN / VoteBuilder</li>
-            <li>NationBuilder</li>
-            <li>Export-friendly reporting</li>
-          </ul>
-        </div>
+          <article class="card">
+            <div class="icon">🔔</div>
+            <h3>Alerts that matter</h3>
+            <p>Catch issues early and save the shift.</p>
+            <ul>
+              <li>No ping today</li>
+              <li>Stale during shift</li>
+              <li>Auto-stop after shift ends</li>
+            </ul>
+          </article>
 
-        <div class="feature-card">
-          <div class="icon">🛡️</div>
-          <h3>Privacy-first</h3>
-          <p>Accountability without surveillance.</p>
-          <ul>
-            <li>Shift-based tracking</li>
-            <li>Opt-in start/stop</li>
-            <li>No off-shift tracking</li>
-          </ul>
+          <article class="card">
+            <div class="icon">🔌</div>
+            <h3>Integrations</h3>
+            <p>Build lists where you already work. Monitor execution here.</p>
+            <ul>
+              <li>NGP VAN / VoteBuilder</li>
+              <li>NationBuilder</li>
+              <li>Export-friendly reporting</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">🛡️</div>
+            <h3>Privacy-first</h3>
+            <p>Accountability without surveillance.</p>
+            <ul>
+              <li>Opt-in start/stop</li>
+              <li>Shift-based tracking</li>
+              <li>No off-shift tracking</li>
+            </ul>
+          </article>
         </div>
       </div>
+    </section>
+
+    <section id="beta" class="section section-dark">
+      <div class="container center">
+        <h2>Now piloting</h2>
+        <p class="lead">We’re onboarding a small group of teams for beta.</p>
+        <a class="btn btn-primary"
+           href="https://docs.google.com/forms/d/e/1FAIpQLSfzIvZv9VEdr6uy26zX1sOjDggZx_EKvineDxARfNMieITAHA/viewform"
+           target="_blank" rel="noopener">
+          Request early access
+        </a>
+        <p class="fineprint">
+          Or email <a href="mailto:hello@groundhalo.com">hello@groundhalo.com</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <img src="/assets/groundhalo-logo.png" alt="GroundHalo Logo" class="logo footer-logo" />
+      <div class="footer-meta">
+        <a href="mailto:hello@groundhalo.com">hello@groundhalo.com</a>
+        <span>© <span id="year"></span> GroundHalo</span>
+      </div>
     </div>
-  </section>
+  </footer>
 
-  <section id="beta" class="section dark">
-    <div class="container center">
-      <h2>Now piloting</h2>
-      <p class="lead">We’re onboarding a small group of teams for beta.</p>
-
-      <a
-        class="btn-primary big-btn"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSfzIvZv9VEdr6uy26zX1sOjDggZx_EKvineDxARfNMieITAHA/viewform"
-        target="_blank"
-        rel="noopener"
-      >
-        Request early access
-      </a>
-
-      <p class="sub-note">
-        Or email <a href="mailto:hello@groundhalo.com">hello@groundhalo.com</a>
-      </p>
-    </div>
-  </section>
-</main>
-
-<footer class="footer">
-  <div class="container footer-inner">
-    <img src="assets/groundhalo-logo.png" alt="GroundHalo Logo" class="logo footer-logo" />
-    <div class="footer-meta">
-      <a href="mailto:hello@groundhalo.com">hello@groundhalo.com</a>
-      <span>© <span id="year"></span> GroundHalo</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
