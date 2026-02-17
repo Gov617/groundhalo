@@ -365,4 +365,9 @@ ul {
         gap: 16px;
     }
 }
+.logo-img {
+  height: 56px;
+  width: auto;
+  display: block;
+}
 
