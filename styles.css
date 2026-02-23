@@ -369,78 +369,37 @@ ul {
   height: 56px;
   width: auto;
   display: block;
-}
-/* ===============================
-   MOBILE OPTIMIZATION
+}/* ===============================
+   CLEAN MOBILE HEADER
 ================================ */
 
 @media (max-width: 820px){
 
   .nav{
-    padding: 12px 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .brandText span{
-    display:none; /* cleaner nav */
+  /* Hide text links on mobile */
+  .navLinks a:not(.primary){
+    display: none;
   }
 
+  /* Keep only primary button */
   .navLinks{
-    gap: 8px;
+    gap: 0;
   }
 
-  .navLinks a{
-    padding: 8px 10px;
+  .btn.primary{
+    padding: 10px 14px;
+    font-size: 13px;
   }
 
-  .hero{
-    padding: 72px 0 34px;
+  /* Hide small subtitle under logo */
+  .brandText span{
+    display: none;
   }
 
-  .panel{
-    padding: 18px;
-  }
-
-  h1{
-    font-size: 40px;
-  }
-
-  .sub{
-    font-size: 16px;
-  }
-
-  .ctaRow{
-    gap:10px;
-  }
-
-  .btn{
-    padding: 12px 14px;
-    border-radius: 14px;
-  }
-
-  .miniMap{
-    height: 220px;
-  }
-
-  .kpis{
-    grid-template-columns: 1fr;
-  }
 }
-
-@media (max-width: 420px){
-
-  h1{
-    font-size: 34px;
-  }
-
-  .pillRow{
-    gap: 8px;
-  }
-
-  .pill{
-    padding: 7px 9px;
-  }
-
-  .miniMap{
-    height: 200px;
-  }
 }
