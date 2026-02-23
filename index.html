@@ -1,616 +1,124 @@
-<!-- <!doctype html> -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="GroundHalo — real-time field visibility. Track shifts, ping freshness, and exceptions for field teams." />
-<meta property="og:title" content="GroundHalo — Real-Time Field Visibility" />
-<meta property="og:description" content="Track active workers, last ping, accuracy, and exceptions — without replacing your CRM." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.groundhalo.com" />
-<title>GroundHalo — Real-Time Field Visibility</title>
-
-<style>
-:root{
-  --bg:#070b16;
-  --bg2:#0b1220;
-  --panel:rgba(255,255,255,.06);
-  --stroke:rgba(255,255,255,.12);
-  --text:#ffffff;
-  --muted:rgba(255,255,255,.70);
-  --cta:#3b82f6;
-  --good:#22c55e;
-  --warn:#f59e0b;
-  --bad:#ef4444;
-  --radius:18px;
-  --shadow:0 24px 80px rgba(0,0,0,.55);
-  --shadow2:0 18px 55px rgba(0,0,0,.45);
-}
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  color:var(--text);
-  background:
-    radial-gradient(1100px 650px at 15% -10%, rgba(29,45,107,.85) 0%, transparent 60%),
-    radial-gradient(900px 550px at 90% 10%, rgba(31,79,90,.65) 0%, transparent 55%),
-    linear-gradient(180deg,var(--bg),var(--bg2));
-  overflow-x:hidden;
-}
-.container{max-width:1100px;margin:0 auto;padding:0 20px;}
-a{color:inherit;}
-
-.blurbar{
-  position:sticky;top:0;z-index:50;
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  background:rgba(7,11,22,.55);
-  border-bottom:1px solid var(--stroke);
-}
-.nav{
-  display:flex;align-items:center;justify-content:space-between;gap:14px;
-  padding:14px 0;
-}
-.brand{
-  display:flex;align-items:center;gap:12px;
-  text-decoration:none;
-  color:#fff;
-}
-.brandMark{
-  width:42px;height:42px;border-radius:12px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  display:grid;place-items:center;
-  overflow:hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,.35);
-}
-.brandMark img{width:100%;height:100%;object-fit:contain;padding:6px;}
-.brandText strong{display:block;font-size:15px;color:#fff;font-weight:950;}
-.brandText span{display:block;font-size:12px;color:var(--muted);margin-top:2px;}
-
-.navLinks{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:flex-end;}
-.navLinks a{
-  text-decoration:none;
-  color:var(--muted);
-  font-weight:850;
-  font-size:13px;
-  padding:8px 10px;border-radius:999px;
-  border:1px solid transparent;
-}
-.navLinks a:hover{color:#fff;border-color:var(--stroke);background:rgba(255,255,255,.03);}
-
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:10px 14px;border-radius:12px;
-  border:1px solid var(--stroke);
-  background:rgba(255,255,255,.05);
-  color:#fff;text-decoration:none;
-  font-weight:900;font-size:13px;
-  white-space:nowrap;
-  transition:transform .12s ease, filter .18s ease;
-}
-.btn:hover{transform:translateY(-1px);filter:brightness(1.06);}
-.btn.primary{
-  background:linear-gradient(135deg,#2563eb,#60a5fa);
-  border:none;color:#07111f;
-  box-shadow:0 14px 40px rgba(37,99,235,.25);
-}
-
-.hero{padding:92px 0 48px;position:relative;}
-.heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch;}
-@media(max-width:980px){.heroGrid{grid-template-columns:1fr;}}
-
-.panel{
-  border:1px solid var(--stroke);
-  background:rgba(255,255,255,.05);
-  border-radius:var(--radius);
-  padding:22px;
-  box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
-}
-.panel::after{
-  content:"";
-  position:absolute;inset:-2px;
-  background:radial-gradient(800px 280px at 10% 10%, rgba(59,130,246,.16), transparent 55%);
-  pointer-events:none;
-}
-.accentBar{
-  width:70px;height:4px;border-radius:999px;
-  background:linear-gradient(90deg,#3b82f6,#22c55e);
-  margin-bottom:22px;opacity:.92;
-  position:relative;z-index:1;
-}
-h1{
-  margin:0 0 14px;
-  font-size:clamp(40px,5.2vw,62px);
-  line-height:1.02;
-  letter-spacing:-.03em;
-  font-weight:950;
-  position:relative;z-index:1;
-}
-.sub{
-  color:var(--muted);
-  font-size:18px;line-height:1.55;
-  margin:0 0 18px;
-  position:relative;z-index:1;
-}
-.ctaRow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:18px;position:relative;z-index:1;}
-.pillRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:1;}
-.pill{
-  font-size:12px;color:var(--muted);
-  border:1px solid var(--stroke);
-  background:rgba(255,255,255,.03);
-  padding:8px 10px;border-radius:999px;
-}
-
-/* Mock card */
-.mock{
-  border-radius:var(--radius);
-  border:1px solid var(--stroke);
-  background:rgba(0,0,0,.18);
-  box-shadow:var(--shadow);
-  overflow:hidden;
-  position:relative;
-}
-.mockTop{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 16px;
-  background:rgba(0,0,0,.35);
-  font-size:12px;font-weight:950;color:var(--muted);
-}
-.mockTopLeft{display:flex;align-items:center;gap:10px;}
-.dots{display:flex;gap:7px;}
-.dot{
-  width:10px;height:10px;border-radius:50%;
-  animation:pulse 1.6s infinite ease-in-out;
-  border:1px solid rgba(255,255,255,.16);
-}
-.dot:nth-child(1){background:var(--good);box-shadow:0 0 10px rgba(34,197,94,.85);}
-.dot:nth-child(2){background:var(--warn);box-shadow:0 0 10px rgba(245,158,11,.85);animation-delay:.2s;}
-.dot:nth-child(3){background:var(--bad);box-shadow:0 0 10px rgba(239,68,68,.85);animation-delay:.4s;}
-@keyframes pulse{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.28);}}
-.liveLabel{
-  color:var(--good);
-  font-weight:950;
-  text-shadow:0 0 14px rgba(34,197,94,.7);
-}
-
-.miniMap{
-  position:relative;
-  height:245px;
-  border-top:1px solid rgba(255,255,255,.08);
-  border-bottom:1px solid rgba(255,255,255,.08);
-  overflow:hidden;
-}
-.osmFrame{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  border:0;
-  filter:saturate(.92) contrast(1.05) brightness(.95);
-}
-.mapGlass{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(700px 220px at 15% 20%, rgba(59,130,246,.18), transparent 55%),
-    radial-gradient(600px 240px at 85% 70%, rgba(34,197,94,.12), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.45));
-  pointer-events:none;
-}
-.ping{
-  position:absolute;
-  width:12px;height:12px;border-radius:50%;
-  transform:translate(-50%,-50%);
-  z-index:3;
-}
-.ping.good{background:var(--good);box-shadow:0 0 14px rgba(34,197,94,.85);}
-.ping.warn{background:var(--warn);box-shadow:0 0 14px rgba(245,158,11,.85);}
-.ping.bad{background:var(--bad);box-shadow:0 0 14px rgba(239,68,68,.85);}
-.ping::after{
-  content:"";
-  position:absolute;inset:-10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.16);
-  opacity:0;
-  animation:ring 2.6s ease-out infinite;
-}
-.ping.good::after{border-color:rgba(34,197,94,.40);}
-.ping.warn::after{border-color:rgba(245,158,11,.40);}
-.ping.bad::after{border-color:rgba(239,68,68,.40);}
-@keyframes ring{
-  0%{transform:scale(.35);opacity:0;}
-  18%{opacity:.65;}
-  100%{transform:scale(1.25);opacity:0;}
-}
-<div class="mapLegend">
-  <span class="legendItem good">Active</span>
-  <span class="legendItem warn">Stale</span>
-  <span class="legendItem bad">No Ping</span>
-</div>
-}
-
-/* Dense-urban helper chip */
-.mapChip{
-  position:absolute;
-  left:10px;
-  top:10px;
-  background:rgba(0,0,0,.48);
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:999px;
-  padding:6px 10px;
-  font-size:11px;
-  font-weight:950;
-  color:rgba(255,255,255,.78);
-  z-index:4;
-  backdrop-filter: blur(10px);
-}
-
-/* KPIs */
-.kpis{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  padding:14px 16px;
-}
-.kpi{
-  border:1px solid var(--stroke);
-  background:rgba(255,255,255,.04);
-  border-radius:14px;
-  padding:12px;
-  box-shadow:0 12px 40px rgba(0,0,0,.25);
-}
-.kpiLabel{color:var(--muted);font-size:12px;font-weight:950;}
-.kpiVal{font-size:22px;font-weight:950;margin-top:6px;letter-spacing:-.02em;}
-.kpiHint{color:var(--muted);font-size:12px;margin-top:6px;}
-
-.badges{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 16px;}
-.badge{
-  border:1px solid var(--stroke);
-  background:rgba(255,255,255,.03);
-  color:var(--muted);
-  padding:6px 10px;border-radius:999px;
-  font-size:12px;font-weight:950;
-}
-.badge.good{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.12);color:rgba(220,255,235,.88);}
-.badge.warn{border-color:rgba(245,158,11,.40);background:rgba(245,158,11,.14);color:rgba(255,245,220,.9);}
-.badge.bad{border-color:rgba(239,68,68,.40);background:rgba(239,68,68,.12);color:rgba(255,228,228,.9);}
-
-/* Sections */
-.section{padding:56px 0;}
-.sectionTitle{font-size:28px;letter-spacing:-.02em;margin:0 0 12px;font-weight:950;}
-.sectionSub{margin:0 0 18px;color:var(--muted);line-height:1.55;font-size:15px;max-width:820px;}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  gap:14px;
-  margin-top:18px;
-}
-.card{
-  grid-column:span 4;
-  border:1px solid var(--stroke);
-  background:rgba(255,255,255,.04);
-  border-radius:var(--radius);
-  padding:16px;
-  box-shadow:var(--shadow2);
-}
-.card h3{margin:2px 0 8px;font-size:16px;font-weight:950;}
-.card p{margin:0;color:var(--muted);line-height:1.55;font-size:14px;}
-@media(max-width:980px){.card{grid-column:span 12;}}
-
-.how{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-@media(max-width:980px){.how{grid-template-columns:1fr;}}
-.step{
-  border:1px solid var(--stroke);
-  background:rgba(255,255,255,.04);
-  border-radius:var(--radius);
-  padding:16px;
-  box-shadow:var(--shadow2);
-}
-.stepNum{
-  width:32px;height:32px;border-radius:10px;
-  display:grid;place-items:center;
-  background:rgba(59,130,246,.18);
-  border:1px solid rgba(59,130,246,.35);
-  font-weight:950;
-  margin-bottom:10px;
-}
-
-.faq{margin-top:16px;border-top:1px solid var(--stroke);padding-top:18px;}
-details{
-  border:1px solid var(--stroke);
-  border-radius:14px;
-  padding:12px 14px;
-  background:rgba(255,255,255,.03);
-  margin-bottom:10px;
-}
-summary{cursor:pointer;font-weight:950;letter-spacing:-.01em;}
-details p{color:var(--muted);line-height:1.6;margin:10px 0 0;}
-
-footer{
-  border-top:1px solid var(--stroke);
-  color:var(--muted);
-  padding:22px 0;
-  margin-top:30px;
-}
-.foot{
-  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
-  font-size:13px;
-}
-.mutedLink{color:var(--muted);text-decoration:none;font-weight:900;}
-.mutedLink:hover{color:#fff;}
-
-/* reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .dot, .ping::after{animation:none!important;}
-  html{scroll-behavior:auto;}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GroundHalo — Real-Time Field Visibility</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="blurbar">
-  <div class="container nav">
-    <a class="brand" href="/">
-      <div class="brandMark">
-        <img src="/assets/groundhalo_logo_header_64h.png" alt="GroundHalo logo">" alt="GroundHalo logo"
-             onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;font-weight:950;color:rgba(255,255,255,.9)&quot;>GH</div>';">
-      </div>
-      <div class="brandText">
-        <strong>GroundHalo</strong>
-        <span>Real-time field visibility</span>
-      </div>
-    </a>
+<header class="navbar">
+  <div class="container nav-container">
+    <div class="logo">
+      <img src="assets/groundhalo_logo_header_64h.png" alt="GroundHalo Logo">
+    </div>
 
-    <div class="navLinks">
+    <div class="nav-links">
       <a href="#features">Features</a>
-      <a href="#how">How it works</a>
+      <a href="#how">How It Works</a>
       <a href="#faq">FAQ</a>
-      <a class="btn" href="mailto:info@groundhalo.com">Email</a>
-      <a class="btn primary" href="/demo.html"" target="_blank" rel="noreferrer">Request Demo</a>
+      <a href="/demo.html" class="btn btn-primary">Join Beta</a>
     </div>
   </div>
-</div>
+</header>
 
-<main>
-  <section class="hero">
-    <div class="container heroGrid">
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <h1 class="hero-title">
+      See the Field.<br>Run the Field.
+    </h1>
 
-      <div class="panel">
-        <div class="accentBar"></div>
-       <h1>
-Know what’s happening<br>
-before it becomes a problem.
-</h1>
+    <p class="hero-subtitle">
+      Real-time visibility for field directors who need to know
+      <span class="highlight">who’s active, who’s stale, and who needs attention</span>
+      — without replacing your CRM.
+    </p>
 
-<p class="sub">
-GroundHalo gives you real-time visibility into your field team —
-who’s active, who’s stale, and who needs attention —
-so you can act fast and stop guessing.
-</p>
+    <a href="/demo.html" class="btn btn-primary btn-lg">Join Beta</a>
 
-        <div class="ctaRow">
-          <a class="btn primary" href="https://forms.gle/9j8qVk12LgztW83A6" target="_blank" rel="noreferrer">Request Demo</a>
-          <a class="btn" href="#how">How it works</a>
-          <a class="btn" href="mailto:info@groundhalo.com">Talk to us</a>
-        </div>
+    <p class="hero-microcopy">
+      Founder-led onboarding • Early access • Limited teams
+    </p>
+  </div>
+</section>
 
-        <div class="pillRow">
-          <div class="pill">Shift-based opt-in</div>
-          <div class="pill">5–10 minute heartbeat</div>
-          <div class="pill">Stale + no-ping exceptions</div>
-          <div class="pill">Low-accuracy protection</div>
-        </div>
+<section id="features" class="features">
+  <div class="container features-grid">
 
-        <div style="margin-top:22px;color:var(--muted);font-size:13px;line-height:1.6;position:relative;z-index:1;">
-          Built for small to mid-sized campaigns and advocacy teams who need real visibility in the field.
-        </div>
-      </div>
-
-      <div class="mock" aria-label="Product preview">
-        <div class="mockTop">
-          <div class="mockTopLeft">
-            <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-            <div>Live Field View</div>
-          </div>
-          <div class="liveLabel">LIVE</div>
-        </div>
-
-        <div class="miniMap" aria-label="Live map preview">
-          <!-- Dense urban: Roxbury / Nubian Square -->
-          <iframe class="osmFrame"
-            title="Roxbury map preview"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=-71.093%2C42.315%2C-71.073%2C42.337&layer=mapnik">
-          </iframe>
-
-          <div class="mapGlass"></div>
-
-          <div class="mapChip">Roxbury • Live pings</div>
-
-          <!-- Dense ping cluster (urban vibe) -->
-          <div class="ping good" style="left:30%;top:52%;"></div>
-          <div class="ping good" style="left:36%;top:48%;"></div>
-          <div class="ping warn" style="left:42%;top:58%;"></div>
-          <div class="ping good" style="left:48%;top:50%;"></div>
-          <div class="ping bad"  style="left:55%;top:60%;"></div>
-          <div class="ping good" style="left:58%;top:46%;"></div>
-          <div class="ping warn" style="left:62%;top:54%;"></div>
-
-          <div class="mapLegend">Active · Stale · No Ping</div>
-        </div>
-
-        <div class="kpis">
-          <div class="kpi">
-            <div class="kpiLabel">Active</div>
-            <div class="kpiVal" data-kpi="active">18</div>
-            <div class="kpiHint">On shift right now</div>
-          </div>
-          <div class="kpi">
-            <div class="kpiLabel">Stale</div>
-            <div class="kpiVal" data-kpi="stale">3</div>
-            <div class="kpiHint">No recent pings</div>
-          </div>
-          <div class="kpi">
-            <div class="kpiLabel">No Ping Today</div>
-            <div class="kpiVal" data-kpi="noping">2</div>
-            <div class="kpiHint">Needs follow-up</div>
-          </div>
-          <div class="kpi">
-            <div class="kpiLabel">Low Accuracy</div>
-            <div class="kpiVal" data-kpi="accuracy">4</div>
-            <div class="kpiHint">GPS confidence low</div>
-          </div>
-        </div>
-
-        <div class="badges">
-          <div class="badge good">On Shift</div>
-          <div class="badge warn">Stale Ping</div>
-          <div class="badge bad">No Ping Today</div>
-        </div>
-      </div>
-
+    <div class="feature-card">
+      <h3>Live Worker Tracking</h3>
+      <ul class="feature-list">
+        <li>5–10 minute heartbeat pings</li>
+        <li>Active / Stale / No Ping detection</li>
+        <li>Low-accuracy protection</li>
+      </ul>
     </div>
-  </section>
 
-  <section id="features" class="section">
-    <div class="container">
-      <h2 class="sectionTitle">Built for real-time monitoring</h2>
-      <p class="sectionSub">
-        GroundHalo complements your CRM. Your team works where they work — you get freshness and exceptions you can act on.
-      </p>
+    <div class="feature-card">
+      <h3>Shift-Based Visibility</h3>
+      <ul class="feature-list">
+        <li>Know who’s actually on shift</li>
+        <li>Surface exceptions instantly</li>
+        <li>Zero guesswork</li>
+      </ul>
+    </div>
 
-      <div class="cards">
-        <div class="card">
-          <h3>Live Map Visibility</h3>
-          <p>See your field team on a live map with freshness indicators and a clean director experience.</p>
-        </div>
-        <div class="card">
-          <h3>Shift Truth</h3>
-          <p>Know who is actively working. Track real on-shift sessions (not just planned schedules).</p>
-        </div>
-        <div class="card">
-          <h3>Exceptions that matter</h3>
-          <p>Stale pings, no ping today, low accuracy — surfaced instantly so directors can move fast.</p>
-        </div>
-        <div class="card">
-          <h3>Mobile-first tracker</h3>
-          <p>Lightweight tracker built for background pings with battery + offline protections.</p>
-        </div>
-        <div class="card">
-          <h3>Privacy by design</h3>
-          <p>Shift-gated tracking and clear “Tracking Active” status — teams know what’s happening.</p>
-        </div>
-        <div class="card">
-          <h3>Works alongside your CRM</h3>
-          <p>Dispositions stay in VAN/NationBuilder. GroundHalo focuses on visibility and execution.</p>
-        </div>
+    <div class="feature-card">
+      <h3>CRM Compatible</h3>
+      <ul class="feature-list">
+        <li>Works with VAN</li>
+        <li>Works with NationBuilder</li>
+        <li>No workflow disruption</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section id="how" class="steps">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-number">01</div>
+        <h4>Assign Shifts</h4>
+        <p>Workers opt in at shift start.</p>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">02</div>
+        <h4>Track Pings</h4>
+        <p>Location heartbeat updates automatically.</p>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">03</div>
+        <h4>Act Fast</h4>
+        <p>Directors see issues before they become problems.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="how" class="section">
-    <div class="container">
-      <h2 class="sectionTitle">How it works</h2>
-      <p class="sectionSub">A simple flow your staff can understand in minutes.</p>
+<section class="beta">
+  <div class="container beta-content">
+    <h2 class="beta-title">Join the GroundHalo Beta</h2>
+    <p class="beta-text">
+      We’re onboarding a limited number of campaigns and advocacy teams.
+    </p>
+    <a href="/demo.html" class="btn btn-primary btn-lg">Join Beta</a>
+  </div>
+</section>
 
-      <div class="how">
-        <div class="step">
-          <div class="stepNum">1</div>
-          <h3 style="margin:0 0 6px;font-weight:950;">Add your roster</h3>
-          <p style="margin:0;color:var(--muted);line-height:1.6;">
-            Create assignments for workers and teams so directors can see who’s scheduled and who’s active.
-          </p>
-        </div>
-
-        <div class="step">
-          <div class="stepNum">2</div>
-          <h3 style="margin:0 0 6px;font-weight:950;">Start a work session</h3>
-          <p style="margin:0;color:var(--muted);line-height:1.6;">
-            Workers start a shift in the tracker app. Tracking runs only while on shift.
-          </p>
-        </div>
-
-        <div class="step">
-          <div class="stepNum">3</div>
-          <h3 style="margin:0 0 6px;font-weight:950;">Monitor and act</h3>
-          <p style="margin:0;color:var(--muted);line-height:1.6;">
-            Directors watch live, follow exceptions, and message workers when pings go stale.
-          </p>
-        </div>
-
-        <div class="step">
-          <div class="stepNum">4</div>
-          <h3 style="margin:0 0 6px;font-weight:950;">Close out and report</h3>
-          <p style="margin:0;color:var(--muted);line-height:1.6;">
-            End sessions and export basic reports — without duplicating CRM data.
-          </p>
-        </div>
-      </div>
-
-      <div class="panel" style="margin-top:18px;">
-        <div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;position:relative;z-index:1;">
-          <div>
-            <div style="font-weight:950;font-size:16px;letter-spacing:-.01em;">Want to beta test GroundHalo?</div>
-            <div style="color:var(--muted);margin-top:4px;">We’ll onboard your org and get you live fast.</div>
-          </div>
-          <a class="btn primary" href="/demo.html" target="_blank" rel="noreferrer">Join the Beta</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="faq" class="section">
-    <div class="container">
-      <h2 class="sectionTitle">FAQ</h2>
-      <p class="sectionSub">Quick answers for directors and admins.</p>
-
-      <div class="faq">
-        <details>
-          <summary>Do we have to canvass inside GroundHalo?</summary>
-          <p>No. GroundHalo is a visibility layer. Your team can work in VAN, NationBuilder, or other tools. GroundHalo focuses on shift + location freshness + exceptions.</p>
-        </details>
-
-        <details>
-          <summary>How often does location update?</summary>
-          <p>Typically every 5–10 minutes (configurable). The system flags stale pings and low-accuracy conditions so directors know what’s reliable.</p>
-        </details>
-
-        <details>
-          <summary>Is tracking always on?</summary>
-          <p>No. Tracking is shift-gated with clear “Tracking Active” status. The goal is trust and transparency.</p>
-        </details>
-
-        <details>
-          <summary>Can we use turf boundaries?</summary>
-          <p>Optional. If you already have turfs, GroundHalo can show on/off turf monitoring. Many teams start without it and still get huge value.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="container foot">
-    <div>© <span id="y"></span> GroundHalo</div>
-    <div style="display:flex;gap:14px;flex-wrap:wrap;">
-      <a class="mutedLink" href="mailto:info@groundhalo.com">info@groundhalo.com</a>
-      <a class="mutedLink" href="#features">Features</a>
-      <a class="mutedLink" href="#how">How it works</a>
-    </div>
+<footer class="footer">
+  <div class="container footer-content">
+    <div>© 2026 GroundHalo</div>
+    <div class="footer-logo">Real-time field visibility</div>
   </div>
 </footer>
-
-<script>
-  document.getElementById('y').textContent = new Date().getFullYear();
-</script>
 
 </body>
 </html>
