@@ -10,7 +10,7 @@
   --bg:#070b16;
   --bg2:#0b1220;
   --stroke:rgba(255,255,255,.12);
-  --text:rgba(255,255,255,.92);
+  --text:#ffffff;
   --muted:rgba(255,255,255,.68);
   --cta:#3b82f6;
   --good:#22c55e;
@@ -20,6 +20,7 @@
 }
 
 *{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 body{
   margin:0;
   font-family:ui-sans-serif,system-ui,-apple-system;
@@ -27,7 +28,6 @@ body{
   background:
     radial-gradient(1100px 650px at 15% -10%, rgba(29,45,107,.8) 0%, transparent 60%),
     linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
-  overflow-x:hidden;
 }
 
 .container{max-width:1100px;margin:0 auto;padding:0 20px;}
@@ -47,6 +47,18 @@ body{
 .brand{
   display:flex;align-items:center;gap:12px;
   text-decoration:none;
+  color:#ffffff; /* FORCE WHITE */
+}
+
+.brandText strong{
+  font-size:14px;
+  color:#ffffff; /* FORCE WHITE */
+}
+
+.brandText span{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
 }
 
 .brandMark{
@@ -64,21 +76,18 @@ body{
   padding:6px;
 }
 
-.brandText strong{font-size:14px;}
-.brandText span{display:block;font-size:12px;color:var(--muted);}
-
 .navLinks{display:flex;gap:14px;align-items:center;}
 .navLinks a{
   text-decoration:none;color:var(--muted);
   font-weight:700;font-size:13px;
 }
-.navLinks a:hover{color:var(--text);}
+.navLinks a:hover{color:#ffffff;}
 
 .btn{
   padding:10px 14px;border-radius:12px;
   border:1px solid var(--stroke);
   background:rgba(255,255,255,.05);
-  color:var(--text);text-decoration:none;
+  color:#ffffff;text-decoration:none;
   font-weight:800;font-size:13px;
 }
 .btn.primary{
@@ -104,14 +113,13 @@ body{
   box-shadow:0 24px 80px rgba(0,0,0,.55);
 }
 
-/* Premium accent bar */
+/* Accent bar */
 .accentBar{
   width:70px;
   height:4px;
   border-radius:999px;
   background:linear-gradient(90deg,#3b82f6,#22c55e);
   margin-bottom:26px;
-  opacity:.9;
 }
 
 h1{
@@ -136,24 +144,6 @@ h1{
   padding:20px;
   background:rgba(255,255,255,.04);
   box-shadow:0 24px 80px rgba(0,0,0,.55);
-  position:relative;
-  overflow:hidden;
-}
-
-/* subtle scan */
-.mock::after{
-  content:"";
-  position:absolute;
-  top:-100%;
-  left:0;
-  width:100%;
-  height:200%;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.06),transparent);
-  animation:scan 8s linear infinite;
-}
-@keyframes scan{
-  0%{transform:translateX(-120%);}
-  100%{transform:translateX(120%);}
 }
 
 .mockTop{
@@ -166,9 +156,9 @@ h1{
   width:10px;height:10px;border-radius:50%;
   animation:pulse 1.6s infinite ease-in-out;
 }
-.dot:nth-child(1){background:var(--good);box-shadow:0 0 8px var(--good);}
-.dot:nth-child(2){background:var(--warn);box-shadow:0 0 8px var(--warn);}
-.dot:nth-child(3){background:var(--bad);box-shadow:0 0 8px var(--bad);}
+.dot:nth-child(1){background:var(--good);}
+.dot:nth-child(2){background:var(--warn);}
+.dot:nth-child(3){background:var(--bad);}
 @keyframes pulse{
   0%,100%{opacity:.5;transform:scale(1);}
   50%{opacity:1;transform:scale(1.3);}
@@ -177,7 +167,6 @@ h1{
 .liveLabel{
   color:var(--good);
   font-weight:900;
-  text-shadow:0 0 12px rgba(34,197,94,.8);
 }
 
 .kpis{
@@ -194,6 +183,32 @@ h1{
 .kpiLabel{font-size:12px;color:var(--muted);}
 .kpiVal{font-size:22px;font-weight:900;margin-top:6px;}
 .kpiHint{font-size:12px;color:var(--muted);margin-top:6px;}
+
+/* HOW IT WORKS SECTION */
+.section{
+  padding:80px 0;
+}
+.section h2{
+  font-size:32px;
+  font-weight:900;
+  margin-bottom:16px;
+}
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+@media(max-width:980px){
+  .steps{grid-template-columns:1fr;}
+}
+.step{
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.05);
+  border-radius:var(--radius);
+  padding:20px;
+}
+.step h3{margin-top:0;}
+.step p{color:var(--muted);}
 
 footer{
   border-top:1px solid var(--stroke);
@@ -287,6 +302,28 @@ footer{
 
   </div>
 </section>
+
+<!-- HOW IT WORKS RESTORED -->
+<section id="how" class="section">
+  <div class="container">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>1. Add your team</h3>
+        <p>Create assignments so directors can see who is responsible for what.</p>
+      </div>
+      <div class="step">
+        <h3>2. Start a shift</h3>
+        <p>Workers start tracking when they begin working. No always-on monitoring.</p>
+      </div>
+      <div class="step">
+        <h3>3. Monitor in real time</h3>
+        <p>Directors watch live and respond instantly to stale pings or no activity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <footer>
