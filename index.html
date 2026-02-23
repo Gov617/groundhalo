@@ -1,5 +1,184 @@
-.miniMap.realMap{
-  background: rgba(0,0,0,.18);
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GroundHalo — Real-Time Field Visibility</title>
+
+<style>
+:root{
+  --bg:#070b16;
+  --bg2:#0b1220;
+  --panel:rgba(255,255,255,.05);
+  --stroke:rgba(255,255,255,.12);
+  --text:#ffffff;
+  --muted:rgba(255,255,255,.7);
+  --cta:#3b82f6;
+  --good:#22c55e;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 10% -10%, rgba(37,99,235,.3), transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+}
+
+.container{max-width:1100px;margin:auto;padding:0 20px;}
+
+.blurbar{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(12px);
+  background:rgba(7,11,22,.65);
+  border-bottom:1px solid var(--stroke);
+}
+
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 0;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  color:#fff;
+}
+
+.brandMark{
+  width:42px;height:42px;
+  border-radius:12px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.05);
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+
+.brandMark img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:6px;
+}
+
+.brandText strong{
+  font-size:15px;
+  display:block;
+}
+
+.brandText span{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.btn{
+  padding:10px 16px;
+  border-radius:12px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+}
+
+.btn.primary{
+  background:linear-gradient(135deg,#2563eb,#60a5fa);
+  border:none;
+  color:#07111f;
+}
+
+.hero{
+  padding:100px 0 60px;
+}
+
+.heroGrid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:30px;
+}
+
+@media(max-width:900px){
+  .heroGrid{grid-template-columns:1fr;}
+}
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  padding:30px;
+}
+
+.accentBar{
+  width:60px;height:4px;
+  background:linear-gradient(90deg,#3b82f6,#22c55e);
+  border-radius:999px;
+  margin-bottom:24px;
+}
+
+h1{
+  font-size:56px;
+  margin:0 0 16px;
+  letter-spacing:-.03em;
+}
+
+.sub{
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+
+.mock{
+  border-radius:20px;
+  border:1px solid var(--stroke);
+  overflow:hidden;
+  position:relative;
+  background:rgba(0,0,0,.25);
+}
+
+.mockTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  background:rgba(0,0,0,.4);
+  font-weight:700;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.dots{display:flex;gap:6px;}
+
+.dot{
+  width:9px;height:9px;
+  border-radius:50%;
+  animation:pulse 1.6s infinite;
+}
+
+.dot:nth-child(1){background:var(--good);}
+.dot:nth-child(2){background:var(--warn);animation-delay:.2s;}
+.dot:nth-child(3){background:var(--bad);animation-delay:.4s;}
+
+@keyframes pulse{
+  0%{transform:scale(1);opacity:.6;}
+  50%{transform:scale(1.3);opacity:1;}
+  100%{transform:scale(1);opacity:.6;}
+}
+
+/* ===== REAL MAP ===== */
+
+.miniMap{
+  position:relative;
+  height:260px;
 }
 
 .osmFrame{
@@ -8,24 +187,109 @@
   width:100%;
   height:100%;
   border:0;
-  filter: saturate(0.95) contrast(1.05) brightness(0.95);
-  transform: translateZ(0);
+  filter:saturate(.9) contrast(1.05) brightness(.95);
 }
 
-/* dark glass so OSM doesn't clash with your theme */
 .mapGlass{
   position:absolute;
   inset:0;
-  background:
-    radial-gradient(700px 220px at 15% 20%, rgba(59,130,246,.18), transparent 55%),
-    radial-gradient(600px 240px at 85% 70%, rgba(34,197,94,.12), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.30));
-  mix-blend-mode: multiply;
+  background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.4));
   pointer-events:none;
 }
 
-/* make sure pings sit above the map */
-.miniMap.realMap .ping,
-.miniMap.realMap .mapLegend{
-  z-index: 3;
+.ping{
+  position:absolute;
+  width:12px;height:12px;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  animation:ring 2.5s infinite;
 }
+
+.ping.good{background:var(--good);}
+.ping.warn{background:var(--warn);}
+.ping.bad{background:var(--bad);}
+
+@keyframes ring{
+  0%{box-shadow:0 0 0 0 rgba(255,255,255,.5);}
+  70%{box-shadow:0 0 0 15px rgba(255,255,255,0);}
+  100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}
+}
+
+.mapLegend{
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  background:rgba(0,0,0,.5);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="blurbar">
+  <div class="container nav">
+    <a class="brand" href="/">
+      <div class="brandMark">
+        <img src="/assets/logo.png" alt="GroundHalo logo">
+      </div>
+      <div class="brandText">
+        <strong>GroundHalo</strong>
+        <span>Real-time field visibility</span>
+      </div>
+    </a>
+    <a class="btn primary" href="https://forms.gle/9j8qVk12LgztW83A6" target="_blank">Request Demo</a>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container heroGrid">
+
+    <div class="panel">
+      <div class="accentBar"></div>
+      <h1>See the Field.<br>Run the Field.</h1>
+      <p class="sub">
+        Monitor who’s on shift, where they are, and what needs attention — without replacing your CRM.
+      </p>
+      <a class="btn primary" href="https://forms.gle/9j8qVk12LgztW83A6" target="_blank">Request Demo</a>
+    </div>
+
+    <div class="mock">
+      <div class="mockTop">
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div class="dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          Director Console
+        </div>
+        LIVE
+      </div>
+
+      <div class="miniMap">
+        <iframe
+          class="osmFrame"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-71.130%2C42.330%2C-71.000%2C42.390&layer=mapnik">
+        </iframe>
+
+        <div class="mapGlass"></div>
+
+        <div class="ping good" style="left:25%;top:40%;"></div>
+        <div class="ping warn" style="left:50%;top:60%;"></div>
+        <div class="ping bad" style="left:70%;top:35%;"></div>
+
+        <div class="mapLegend">
+          Active · Stale · No Ping
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
