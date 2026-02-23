@@ -14,16 +14,22 @@
     :root{
       --bg: #070b16;
       --bg2:#0b1220;
+
       --panel: rgba(255,255,255,.06);
       --panel2: rgba(255,255,255,.08);
       --stroke: rgba(255,255,255,.12);
+
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.68);
+
       --cta: #3b82f6;
-      --cta2:#22c55e;
+      --good:#22c55e;
       --warn:#f59e0b;
       --bad:#ef4444;
+
       --shadow: 0 18px 55px rgba(0,0,0,.45);
+      --shadow2: 0 24px 80px rgba(0,0,0,.55);
+
       --radius: 18px;
     }
 
@@ -34,17 +40,20 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
       background:
-        radial-gradient(1100px 650px at 15% -10%, #1d2d6b 0%, rgba(29,45,107,0) 60%),
-        radial-gradient(900px 550px at 90% 10%, #1f4f5a 0%, rgba(31,79,90,0) 55%),
+        radial-gradient(1100px 650px at 15% -10%, rgba(29,45,107,.85) 0%, rgba(29,45,107,0) 60%),
+        radial-gradient(900px 550px at 90% 10%, rgba(31,79,90,.65) 0%, rgba(31,79,90,0) 55%),
         linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
       overflow-x:hidden;
     }
 
     a{ color:inherit; }
     .container{ max-width:1100px; margin:0 auto; padding:0 20px; }
+
+    /* ===== Premium sticky glass nav ===== */
     .blurbar{
       position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       background: rgba(7,11,22,.55);
       border-bottom: 1px solid var(--stroke);
     }
@@ -56,21 +65,31 @@
     .brand{
       display:flex; align-items:center; gap:12px;
       text-decoration:none;
-      min-width: 240px;
+      min-width: 250px;
+      transition: transform .22s ease, filter .22s ease;
     }
+    .brand:hover{ transform: translateY(-1px); filter: brightness(1.04); }
+
     .brandMark{
       width:40px; height:40px; border-radius:12px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
       display:grid; place-items:center;
-      box-shadow: var(--shadow);
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
       overflow:hidden;
+      position:relative;
     }
+
     .brandMark img{
-      width:100%; height:100%;
+      width:100%;
+      height:100%;
       object-fit:contain;
       display:block;
+      padding: 6px;
+      /* helps dark logos pop on dark nav without turning it into a white square */
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.55));
     }
+
     /* fallback if logo can't load */
     .brandFallback{
       font-weight:900;
@@ -88,11 +107,12 @@
     .navLinks a{
       text-decoration:none;
       color: var(--muted);
-      font-weight:700;
+      font-weight:800;
       font-size:13px;
       padding:8px 10px;
       border-radius: 999px;
       border:1px solid transparent;
+      transition: background .18s ease, border-color .18s ease, color .18s ease;
     }
     .navLinks a:hover{
       color: var(--text);
@@ -108,10 +128,10 @@
       background: rgba(255,255,255,.05);
       color: var(--text);
       text-decoration:none;
-      font-weight:800;
+      font-weight:900;
       font-size:13px;
       gap:8px;
-      transition: transform .08s ease, filter .15s ease;
+      transition: transform .10s ease, filter .15s ease;
       white-space:nowrap;
     }
     .btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
@@ -119,25 +139,98 @@
       background: linear-gradient(135deg, #2563eb, #60a5fa);
       border-color: transparent;
       color: #07111f;
+      box-shadow: 0 14px 40px rgba(37,99,235,.25);
     }
+    .btn.primary:hover{ filter: brightness(1.06); }
+
     .btn.secondary{
       background: rgba(34,197,94,.14);
       border-color: rgba(34,197,94,.35);
     }
 
+    /* ===== Hero ===== */
     .hero{
-      padding: 72px 0 40px;
+      padding: 92px 0 44px;
       position:relative;
     }
+
+    /* subtle moving grain */
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-200px;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.06) 0 1px, transparent 1px),
+        radial-gradient(circle at 80% 10%, rgba(255,255,255,.05) 0 1px, transparent 1px);
+      background-size: 140px 140px, 180px 180px;
+      opacity:.18;
+      filter: blur(.2px);
+      animation: drift 18s linear infinite;
+      transform: translateZ(0);
+    }
+    @keyframes drift{
+      0%{ transform: translate3d(0,0,0); }
+      100%{ transform: translate3d(-120px, 80px, 0); }
+    }
+
     .heroGrid{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
       gap: 22px;
       align-items:stretch;
+      position:relative;
     }
     @media (max-width: 980px){
       .heroGrid{ grid-template-columns:1fr; }
       .brand{ min-width:auto; }
+    }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* premium inner highlight */
+    .panel::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(800px 280px at 10% 10%, rgba(59,130,246,.16), transparent 55%);
+      pointer-events:none;
+    }
+
+    .heroLogoRow{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom: 18px;
+      position:relative;
+      z-index:1;
+    }
+    .heroLogoWrap{
+      width: 84px;
+      height: 84px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 20px 70px rgba(0,0,0,.55);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+    }
+    .heroLogoWrap img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 10px;
+      filter: drop-shadow(0 14px 28px rgba(0,0,0,.55));
+      display:block;
     }
 
     h1{
@@ -145,6 +238,9 @@
       font-size: clamp(40px, 5.2vw, 62px);
       line-height: 1.02;
       letter-spacing: -.03em;
+      font-weight: 950;
+      position:relative;
+      z-index:1;
     }
     .sub{
       color: var(--muted);
@@ -152,10 +248,21 @@
       line-height:1.55;
       max-width: 720px;
       margin: 0 0 18px;
+      position:relative;
+      z-index:1;
     }
+    .ctaRow{
+      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+      margin-top: 18px;
+      position:relative;
+      z-index:1;
+    }
+
     .pillRow{
       display:flex; gap:10px; flex-wrap:wrap;
       margin: 18px 0 0;
+      position:relative;
+      z-index:1;
     }
     .pill{
       font-size: 12px;
@@ -166,19 +273,7 @@
       border-radius: 999px;
     }
 
-    .panel{
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .ctaRow{
-      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-      margin-top: 18px;
-    }
-
+    /* ===== Mock / Preview Panel (premium interactive feel) ===== */
     .mock{
       position:relative;
       overflow:hidden;
@@ -188,36 +283,132 @@
         radial-gradient(700px 250px at 10% 15%, rgba(59,130,246,.25), transparent 55%),
         radial-gradient(650px 300px at 90% 35%, rgba(34,197,94,.18), transparent 60%),
         rgba(255,255,255,.04);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow2);
       padding: 18px;
-      min-height: 280px;
+      min-height: 300px;
+      transform: translateZ(0);
+      transition: transform .25s ease, filter .25s ease;
     }
+    .mock:hover{
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+    }
+
+    /* subtle “scan” shimmer */
+    .mock::after {
+      content: "";
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 200%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255,255,255,.06) 42%,
+        transparent 78%
+      );
+      animation: scan 7s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes scan {
+      0% { transform: translateX(-115%); }
+      100% { transform: translateX(115%); }
+    }
+
     .mockTop{
       display:flex; justify-content:space-between; align-items:center;
       margin-bottom: 14px;
       color: var(--muted);
-      font-weight:800;
+      font-weight:900;
       font-size:12px;
+      position:relative;
+      z-index:1;
     }
-    .dots{ display:flex; gap:6px; }
-    .dot{ width:10px; height:10px; border-radius:50%; background: rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.15); }
+    .mockTopLeft{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .dots{ display:flex; gap:7px; align-items:center; }
+
+    /* animated live dots */
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: .55; }
+      50% { transform: scale(1.28); opacity: 1; }
+      100% { transform: scale(1); opacity: .55; }
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: pulse 1.6s infinite ease-in-out;
+      border: 1px solid rgba(255,255,255,.16);
+    }
+    .dot:nth-child(1) {
+      background: var(--good);
+      box-shadow: 0 0 10px rgba(34,197,94,.85);
+      animation-delay: 0s;
+    }
+    .dot:nth-child(2) {
+      background: var(--warn);
+      box-shadow: 0 0 10px rgba(245,158,11,.85);
+      animation-delay: .2s;
+    }
+    .dot:nth-child(3) {
+      background: var(--bad);
+      box-shadow: 0 0 10px rgba(239,68,68,.85);
+      animation-delay: .4s;
+    }
+
+    /* Live label glow + subtle pulse */
+    .liveLabel{
+      color: var(--good);
+      font-weight: 950;
+      letter-spacing:.03em;
+      text-shadow: 0 0 14px rgba(34,197,94,.7);
+      animation: liveGlow 2.4s ease-in-out infinite;
+    }
+    @keyframes liveGlow{
+      0%,100%{ opacity:.85; }
+      50%{ opacity: 1; }
+    }
+
     .kpis{
       display:grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       margin-top: 10px;
+      position:relative;
+      z-index:1;
     }
+
+    /* subtle float, staggered */
+    @keyframes floaty {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-3px); }
+      100% { transform: translateY(0px); }
+    }
+
     .kpi{
       border: 1px solid var(--stroke);
       background: rgba(255,255,255,.04);
       border-radius: 14px;
       padding: 12px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+      animation: floaty 4.8s ease-in-out infinite;
     }
-    .kpiLabel{ color: var(--muted); font-size: 12px; font-weight:800; }
-    .kpiVal{ font-size: 22px; font-weight: 900; margin-top: 6px; letter-spacing:-.02em; }
+    .kpi:nth-child(1){ animation-delay: 0s; }
+    .kpi:nth-child(2){ animation-delay: .25s; }
+    .kpi:nth-child(3){ animation-delay: .5s; }
+    .kpi:nth-child(4){ animation-delay: .75s; }
+
+    .kpiLabel{ color: var(--muted); font-size: 12px; font-weight:950; }
+    .kpiVal{ font-size: 22px; font-weight: 950; margin-top: 6px; letter-spacing:-.02em; }
     .kpiHint{ color: var(--muted); font-size: 12px; margin-top: 6px; }
 
-    .badges{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 12px; }
+    .badges{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 12px; position:relative; z-index:1; }
     .badge{
       border:1px solid var(--stroke);
       background: rgba(255,255,255,.03);
@@ -225,17 +416,41 @@
       padding:6px 10px;
       border-radius:999px;
       font-size:12px;
-      font-weight:800;
+      font-weight:950;
+      position:relative;
+      overflow:hidden;
     }
+    /* premium sheen on badges */
+    .badge::after{
+      content:"";
+      position:absolute;
+      top:-20%;
+      left:-60%;
+      width:60%;
+      height:160%;
+      background: linear-gradient(110deg, transparent, rgba(255,255,255,.10), transparent);
+      transform: rotate(12deg);
+      animation: badgeSheen 6.5s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes badgeSheen{
+      0%{ left:-60%; opacity:0; }
+      15%{ opacity:1; }
+      35%{ left:140%; opacity:0; }
+      100%{ left:140%; opacity:0; }
+    }
+
     .badge.good{ border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.12); color: rgba(220,255,235,.88); }
     .badge.warn{ border-color: rgba(245,158,11,.40); background: rgba(245,158,11,.14); color: rgba(255,245,220,.9); }
     .badge.bad{ border-color: rgba(239,68,68,.40); background: rgba(239,68,68,.12); color: rgba(255,228,228,.9); }
 
+    /* ===== Sections ===== */
     .section{ padding: 40px 0; }
     .sectionTitle{
       font-size: 28px;
       letter-spacing:-.02em;
       margin: 0 0 12px;
+      font-weight: 950;
     }
     .sectionSub{
       margin: 0 0 18px;
@@ -258,9 +473,24 @@
       border-radius: var(--radius);
       padding: 16px;
       box-shadow: var(--shadow);
+      transition: transform .18s ease, filter .18s ease;
+      position:relative;
+      overflow:hidden;
     }
-    .card h3{ margin: 2px 0 8px; font-size: 16px; letter-spacing:-.01em; }
-    .card p{ margin: 0; color: var(--muted); line-height: 1.55; font-size: 14px; }
+    .card:hover{
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(700px 240px at 10% 10%, rgba(59,130,246,.10), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .card h3{ margin: 2px 0 8px; font-size: 16px; letter-spacing:-.01em; font-weight: 950; position:relative; z-index:1; }
+    .card p{ margin: 0; color: var(--muted); line-height: 1.55; font-size: 14px; position:relative; z-index:1; }
     @media (max-width: 980px){
       .card{ grid-column: span 12; }
     }
@@ -279,14 +509,30 @@
       border-radius: var(--radius);
       padding: 16px;
       box-shadow: var(--shadow);
+      transition: transform .18s ease, filter .18s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .step:hover{
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+    }
+    .step::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(700px 240px at 12% 10%, rgba(34,197,94,.10), transparent 55%);
+      pointer-events:none;
     }
     .stepNum{
       width:32px; height:32px; border-radius: 10px;
       display:grid; place-items:center;
       background: rgba(59,130,246,.18);
       border:1px solid rgba(59,130,246,.35);
-      font-weight: 900;
+      font-weight: 950;
       margin-bottom: 10px;
+      position:relative;
+      z-index:1;
     }
 
     .faq{
@@ -303,7 +549,7 @@
     }
     summary{
       cursor:pointer;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -.01em;
     }
     details p{ color: var(--muted); line-height: 1.6; margin: 10px 0 0; }
@@ -318,8 +564,14 @@
       display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
       font-size: 13px;
     }
-    .mutedLink{ color: var(--muted); text-decoration:none; font-weight:800; }
+    .mutedLink{ color: var(--muted); text-decoration:none; font-weight:900; }
     .mutedLink:hover{ color: var(--text); }
+
+    /* ===== Premium micro motion for reduced motion users ===== */
+    @media (prefers-reduced-motion: reduce) {
+      .hero::before, .mock::after, .badge::after, .kpi, .dot, .liveLabel { animation: none !important; }
+      .mock, .card, .step, .brand { transition: none !important; }
+    }
   </style>
 </head>
 
@@ -330,11 +582,11 @@
       <div class="nav">
         <a class="brand" href="/">
           <div class="brandMark">
-            <!-- IMPORTANT: Put your logo at /assets/logo.png -->
+            <!-- IMPORTANT: Logo should live at /assets/logo.png -->
             <img
               src="/assets/logo.png"
               alt="GroundHalo logo"
-              onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;brandFallback&quot;>GH</div>';"
+              onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;brandFallback&quot;>GH</div>';"
             />
           </div>
           <div class="brandText">
@@ -347,9 +599,8 @@
           <a href="#features">Features</a>
           <a href="#how">How it works</a>
           <a href="#faq">FAQ</a>
-          <!-- Update these links as you want -->
           <a class="btn" href="mailto:info@groundhalo.com">Email</a>
-          <!-- Replace with your real form link -->
+          <!-- Replace with your real form link if needed -->
           <a class="btn primary" href="https://forms.gle/9j8qVk12LgztW83A6" target="_blank" rel="noreferrer">Request Demo</a>
         </div>
       </div>
@@ -359,17 +610,32 @@
   <main>
     <section class="hero">
       <div class="container heroGrid">
-        <div class="panel">
+
+        <div class="panel" id="heroPanel">
+          <div class="heroLogoRow">
+            <div class="heroLogoWrap">
+              <img
+                src="/assets/logo.png"
+                alt="GroundHalo"
+                onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;brandFallback&quot; style=&quot;font-size:20px;&quot;>GH</div>';"
+              />
+            </div>
+            <div>
+              <div style="font-weight:950; letter-spacing:-.01em; font-size:16px;">GroundHalo</div>
+              <div style="color:var(--muted); font-weight:900; font-size:13px; margin-top:4px;">
+                Monitoring layer for field operations
+              </div>
+            </div>
+          </div>
+
           <h1>See the Field.<br/>Run the Field.</h1>
           <p class="sub">
-            GroundHalo is the monitoring layer for field operations.
+            GroundHalo complements tools like VAN and NationBuilder.
             Track who’s on shift, where they are, and which sessions need attention — without replacing your CRM.
           </p>
 
           <div class="ctaRow">
-            <a class="btn primary" href="https://forms.gle/9j8qVk12LgztW83A6" target="_blank" rel="noreferrer">
-              Request Demo
-            </a>
+            <a class="btn primary" href="https://forms.gle/9j8qVk12LgztW83A6" target="_blank" rel="noreferrer">Request Demo</a>
             <a class="btn secondary" href="#how">How it works</a>
             <a class="btn" href="mailto:info@groundhalo.com">Talk to us</a>
           </div>
@@ -380,38 +646,42 @@
             <div class="pill">Stale + no-ping exceptions</div>
             <div class="pill">Low-accuracy protection</div>
           </div>
+
+          <div style="margin-top:22px; color:var(--muted); font-size:13px; line-height:1.6; position:relative; z-index:1;">
+            Designed for campaigns, nonprofits, field teams, and distributed operations.
+          </div>
         </div>
 
-        <div class="mock" aria-label="Product preview">
+        <div class="mock" id="mockPanel" aria-label="Product preview">
           <div class="mockTop">
-            <div style="display:flex;align-items:center;gap:10px;">
+            <div class="mockTopLeft">
               <div class="dots">
                 <div class="dot"></div><div class="dot"></div><div class="dot"></div>
               </div>
               <div>Director Console</div>
             </div>
-            <div>Live</div>
+            <div class="liveLabel">LIVE</div>
           </div>
 
           <div class="kpis">
             <div class="kpi">
               <div class="kpiLabel">Active</div>
-              <div class="kpiVal">18</div>
+              <div class="kpiVal" data-kpi="active">18</div>
               <div class="kpiHint">On shift right now</div>
             </div>
             <div class="kpi">
               <div class="kpiLabel">Stale</div>
-              <div class="kpiVal">3</div>
+              <div class="kpiVal" data-kpi="stale">3</div>
               <div class="kpiHint">No recent pings</div>
             </div>
             <div class="kpi">
               <div class="kpiLabel">No Ping Today</div>
-              <div class="kpiVal">2</div>
+              <div class="kpiVal" data-kpi="noping">2</div>
               <div class="kpiHint">Needs follow-up</div>
             </div>
             <div class="kpi">
               <div class="kpiLabel">Low Accuracy</div>
-              <div class="kpiVal">4</div>
+              <div class="kpiVal" data-kpi="accuracy">4</div>
               <div class="kpiHint">GPS confidence low</div>
             </div>
           </div>
@@ -422,10 +692,11 @@
             <div class="badge bad">No Ping Today</div>
           </div>
 
-          <div style="margin-top:14px;color:var(--muted);font-size:13px;line-height:1.5;">
+          <div style="margin-top:14px;color:var(--muted);font-size:13px;line-height:1.5; position:relative; z-index:1;">
             Clean, reliable monitoring — no canvassing workflow required.
           </div>
         </div>
+
       </div>
     </section>
 
@@ -433,7 +704,7 @@
       <div class="container">
         <h2 class="sectionTitle">Built for real-time monitoring</h2>
         <p class="sectionSub">
-          GroundHalo complements tools like VAN and NationBuilder. Your team works where they work — you get visibility and accountability.
+          GroundHalo complements your CRM. Your team works where they work — you get visibility, freshness, and exceptions you can act on.
         </p>
 
         <div class="cards">
@@ -452,7 +723,7 @@
 
           <div class="card">
             <h3>Mobile-first tracker</h3>
-            <p>Lightweight native app designed to run background pings with battery and offline protections.</p>
+            <p>Lightweight native app designed for background pings with battery and offline protections.</p>
           </div>
           <div class="card">
             <h3>Privacy by design</h3>
@@ -460,7 +731,7 @@
           </div>
           <div class="card">
             <h3>Works alongside your CRM</h3>
-            <p>Dispositions and survey results stay in your CRM. GroundHalo focuses on visibility and field execution.</p>
+            <p>Dispositions and survey results stay in your CRM. GroundHalo focuses on visibility and execution.</p>
           </div>
         </div>
       </div>
@@ -474,41 +745,41 @@
         <div class="how">
           <div class="step">
             <div class="stepNum">1</div>
-            <h3 style="margin:0 0 6px;">Add your roster</h3>
-            <p style="margin:0;color:var(--muted);line-height:1.6;">
+            <h3 style="margin:0 0 6px; font-weight:950; position:relative; z-index:1;">Add your roster</h3>
+            <p style="margin:0;color:var(--muted);line-height:1.6; position:relative; z-index:1;">
               Create assignments for workers and teams so directors can see who’s responsible for what.
             </p>
           </div>
 
           <div class="step">
             <div class="stepNum">2</div>
-            <h3 style="margin:0 0 6px;">Start a work session</h3>
-            <p style="margin:0;color:var(--muted);line-height:1.6;">
+            <h3 style="margin:0 0 6px; font-weight:950; position:relative; z-index:1;">Start a work session</h3>
+            <p style="margin:0;color:var(--muted);line-height:1.6; position:relative; z-index:1;">
               Workers start a shift in the tracker app. Tracking runs only while on shift.
             </p>
           </div>
 
           <div class="step">
             <div class="stepNum">3</div>
-            <h3 style="margin:0 0 6px;">Monitor and act</h3>
-            <p style="margin:0;color:var(--muted);line-height:1.6;">
+            <h3 style="margin:0 0 6px; font-weight:950; position:relative; z-index:1;">Monitor and act</h3>
+            <p style="margin:0;color:var(--muted);line-height:1.6; position:relative; z-index:1;">
               Directors watch live, follow exceptions, and message workers when pings go stale.
             </p>
           </div>
 
           <div class="step">
             <div class="stepNum">4</div>
-            <h3 style="margin:0 0 6px;">Close out and report</h3>
-            <p style="margin:0;color:var(--muted);line-height:1.6;">
+            <h3 style="margin:0 0 6px; font-weight:950; position:relative; z-index:1;">Close out and report</h3>
+            <p style="margin:0;color:var(--muted);line-height:1.6; position:relative; z-index:1;">
               End sessions and export basic reports if needed — without duplicating CRM data.
             </p>
           </div>
         </div>
 
         <div style="margin-top:18px;" class="panel">
-          <div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;">
+          <div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center; position:relative; z-index:1;">
             <div>
-              <div style="font-weight:900;font-size:16px;letter-spacing:-.01em;">Want to beta test GroundHalo?</div>
+              <div style="font-weight:950;font-size:16px;letter-spacing:-.01em;">Want to beta test GroundHalo?</div>
               <div style="color:var(--muted);margin-top:4px;">We’ll onboard your org and get you live fast.</div>
             </div>
             <a class="btn primary" href="https://forms.gle/9j8qVk12LgztW83A6" target="_blank" rel="noreferrer">Join the Beta</a>
@@ -525,7 +796,7 @@
         <div class="faq">
           <details>
             <summary>Do we have to canvass inside GroundHalo?</summary>
-            <p>No. GroundHalo is a visibility layer. Your team can canvass in VAN, NationBuilder, or other tools. GroundHalo focuses on shift + location freshness + exceptions.</p>
+            <p>No. GroundHalo is a visibility layer. Your team can work in VAN, NationBuilder, or other tools. GroundHalo focuses on shift + location freshness + exceptions.</p>
           </details>
 
           <details>
@@ -559,7 +830,51 @@
   </footer>
 
   <script>
+    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Premium: tiny "busy" KPI ticks (subtle + non-cheesy)
+    // (won’t run if user prefers reduced motion)
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReduced) {
+      const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+      const targets = {
+        active: { el: document.querySelector('[data-kpi="active"]'), base: 18, min: 14, max: 24 },
+        stale: { el: document.querySelector('[data-kpi="stale"]'), base: 3, min: 0, max: 7 },
+        noping: { el: document.querySelector('[data-kpi="noping"]'), base: 2, min: 0, max: 5 },
+        accuracy: { el: document.querySelector('[data-kpi="accuracy"]'), base: 4, min: 0, max: 9 },
+      };
+
+      setInterval(() => {
+        // tiny random drift, slow cadence — feels “live” not “casino”
+        for (const key of Object.keys(targets)) {
+          const t = targets[key];
+          if (!t.el) continue;
+          const jitter = (Math.random() < 0.65) ? 0 : (Math.random() < 0.5 ? -1 : 1);
+          const current = Number(t.el.textContent || t.base);
+          const next = clamp(current + jitter, t.min, t.max);
+          t.el.textContent = next;
+        }
+      }, 1800);
+
+      // Soft parallax on mock panel (premium, subtle)
+      const mock = document.getElementById('mockPanel');
+      if (mock) {
+        const strength = 6; // px
+        window.addEventListener('mousemove', (e) => {
+          const rect = mock.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = (e.clientX - cx) / rect.width;
+          const dy = (e.clientY - cy) / rect.height;
+          mock.style.transform = `translateY(-2px) translate(${dx * strength}px, ${dy * strength}px)`;
+        }, { passive: true });
+
+        window.addEventListener('mouseleave', () => {
+          mock.style.transform = 'translateY(0px)';
+        });
+      }
+    }
   </script>
 </body>
 </html>
