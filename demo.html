@@ -1,72 +1,392 @@
+Here's the full HTML to cut and paste:
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Request a Demo — GroundHalo</title>
-
-<link rel="stylesheet" href="/demo.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GroundHalo — See It In Action</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --bg: #0a0a0a; --bg2: #111; --bg3: #141414; --cyan: #00c8d4; --cyan-dim: rgba(0,200,212,0.5); --cyan-faint: rgba(0,200,212,0.12); --cyan-pale: rgba(0,200,212,0.06); --amber: #ffd700; --red: #ff4455; --white: #ffffff; --text: rgba(255,255,255,0.85); --text-dim: rgba(255,255,255,0.45); --border: #222; --border-cyan: rgba(0,200,212,0.25); }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+  .gh-blink { animation: blink 1.2s infinite; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes ping-pulse { 0% { box-shadow: 0 0 0 0 rgba(0,200,212,0.6); } 70% { box-shadow: 0 0 0 8px rgba(0,200,212,0); } 100% { box-shadow: 0 0 0 0 rgba(0,200,212,0); } }
+  @keyframes scanlines { from { background-position: 0 0; } to { background-position: 0 100px; } }
+  @keyframes ping-flash { 0%,100% { background: var(--bg3); } 50% { background: rgba(0,200,212,0.15); } }
+  .s-dot-active { animation: ping-pulse 2s infinite; }
+  .ping-flash { animation: ping-flash 0.4s ease; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 48px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { height: 32px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 14px; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--cyan); }
+  .nav-cta { background: var(--cyan); color: #000 !important; padding: 8px 20px; border-radius: 6px; font-weight: 600; font-size: 13px !important; }
+  .hero { padding: 140px 48px 80px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,200,212,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--cyan-faint); border: 1px solid var(--border-cyan); padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; color: var(--cyan); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 28px; animation: fadeUp 0.6s ease forwards; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+  .hero-title { font-size: clamp(40px, 6vw, 72px); font-weight: 700; line-height: 1.05; letter-spacing: -2px; color: var(--white); margin-bottom: 20px; animation: fadeUp 0.7s ease forwards 0.1s; opacity: 0; }
+  .hero-title span { color: var(--cyan); }
+  .hero-sub { font-size: 18px; font-weight: 300; color: var(--text-dim); max-width: 560px; margin: 0 auto 48px; line-height: 1.7; animation: fadeUp 0.7s ease forwards 0.2s; opacity: 0; }
+  .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.7s ease forwards 0.3s; opacity: 0; }
+  .btn-primary { background: var(--cyan); color: #000; padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 700; text-decoration: none; transition: opacity 0.2s, transform 0.15s; }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--white); padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; border: 1px solid var(--border); transition: border-color 0.2s; }
+  .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+  .section { padding: 100px 48px; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px; text-align: center; }
+  .section-title { font-size: clamp(28px, 4vw, 48px); font-weight: 700; letter-spacing: -1px; text-align: center; margin-bottom: 16px; color: var(--white); }
+  .section-sub { font-size: 16px; color: var(--text-dim); text-align: center; max-width: 540px; margin: 0 auto 64px; line-height: 1.7; font-weight: 300; }
+  .mockups-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .mockups-grid { display: flex; gap: 48px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+  .mockup-wrap { text-align: center; }
+  .mockup-label { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 20px; }
+  .phone-frame { width: 240px; background: #1a1a1a; border-radius: 36px; padding: 10px; border: 2px solid #2a2a2a; display: inline-block; }
+  .phone-screen { background: var(--bg); border-radius: 28px; overflow: hidden; }
+  .phone-status { background: var(--bg); padding: 10px 16px 4px; display: flex; justify-content: space-between; font-size: 10px; font-weight: 600; color: var(--white); }
+  .login-screen { padding: 24px 18px; background: var(--bg); }
+  .login-logo { width: 48px; height: 48px; background: var(--cyan); border-radius: 12px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .login-appname { font-size: 16px; font-weight: 700; color: var(--white); text-align: center; margin-bottom: 4px; }
+  .login-appsub { font-size: 11px; color: var(--text-dim); text-align: center; margin-bottom: 20px; }
+  .login-form { background: var(--bg3); border-radius: 10px; padding: 16px; border: 1px solid var(--border); }
+  .login-field-label { font-size: 10px; color: var(--text-dim); margin-bottom: 4px; }
+  .login-field { background: var(--bg2); border: 1px solid #333; border-radius: 6px; padding: 8px 10px; font-size: 12px; color: var(--text-dim); margin-bottom: 10px; }
+  .login-btn { background: var(--cyan); color: #000; width: 100%; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 700; text-align: center; margin-top: 4px; }
+  .home-screen { background: var(--bg); }
+  .home-header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 14px 16px 12px; }
+  .home-title { font-size: 16px; font-weight: 700; color: var(--white); }
+  .home-sub { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+  .home-body { padding: 12px; }
+  .status-card { background: var(--bg3); border-radius: 10px; padding: 12px; margin-bottom: 10px; border: 1px solid var(--border); }
+  .status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .status-row:last-child { margin-bottom: 0; }
+  .s-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); flex-shrink: 0; }
+  .s-label { font-size: 11px; color: var(--text-dim); flex: 1; }
+  .s-val { font-size: 11px; font-weight: 700; color: var(--cyan); }
+  .stats-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .stat-box { flex: 1; background: var(--bg3); border-radius: 8px; padding: 10px; border: 1px solid var(--border); text-align: center; }
+  .stat-num { font-size: 18px; font-weight: 700; color: var(--cyan); }
+  .stat-lbl { font-size: 9px; color: var(--text-dim); margin-top: 2px; }
+  .home-btn { width: 100%; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  .btn-ping { background: transparent; color: var(--cyan); border: 1.5px solid var(--cyan); }
+  .btn-end { background: var(--red); color: white; border: none; }
+  .btn-start { background: var(--cyan); color: #000; border: none; }
+  .next-ping { font-size: 10px; color: var(--text-dim); text-align: center; }
+  .demo-section { background: var(--bg); border-top: 1px solid var(--border); padding: 80px 0 0; }
+  .demo-section .section-label, .demo-section .section-title, .demo-section .section-sub { padding: 0 48px; }
+  .gh-wrap { height: 580px; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 0 48px; font-family: 'Space Mono', monospace; position: relative; }
+  .gh-wrap::after { content: ''; position: absolute; inset: 0; z-index: 9999; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px); animation: scanlines 8s linear infinite; }
+  .gh-header-bar { height: 44px; flex-shrink: 0; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+  .gh-logo { display: flex; align-items: center; gap: 10px; }
+  .gh-logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .gh-logo-text { font-size: 13px; font-weight: 700; letter-spacing: 4px; color: var(--cyan); text-transform: uppercase; }
+  .gh-logo-sub { font-size: 9px; color: var(--text-dim); letter-spacing: 2px; }
+  .gh-header-meta { display: flex; align-items: center; gap: 20px; font-size: 10px; color: var(--text-dim); letter-spacing: 1px; }
+  .gh-header-meta span { color: var(--text); }
+  .gh-live { display: flex; align-items: center; gap: 6px; background: var(--cyan-faint); border: 1px solid var(--border-cyan); padding: 3px 10px; border-radius: 2px; font-size: 9px; font-weight: 700; letter-spacing: 2px; color: var(--cyan); }
+  .gh-live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+  .gh-body { display: flex; flex: 1; overflow: hidden; }
+  .gh-map-wrap { flex: 1; position: relative; }
+  #gh-map { width: 100%; height: 100%; }
+  #gh-map .leaflet-tile-pane { filter: brightness(0.45) saturate(0.3) hue-rotate(160deg); }
+  .gh-turf-badges { position: absolute; bottom: 12px; left: 12px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
+  .gh-turf-badge { background: rgba(10,10,10,0.88); border: 1px solid var(--border); padding: 5px 10px; font-size: 10px; letter-spacing: 1px; backdrop-filter: blur(4px); font-family: 'Space Mono', monospace; }
+  .gh-turf-badge .badge-name { color: var(--text-dim); margin-bottom: 2px; }
+  .gh-turf-badge .badge-count { font-weight: 700; }
+  .badge-good .badge-count { color: var(--cyan); }
+  .badge-warn .badge-count { color: var(--amber); }
+  .gh-panel { width: 260px; flex-shrink: 0; background: var(--bg2); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; font-family: 'Space Mono', monospace; }
+  .gh-panel-section { border-bottom: 1px solid var(--border); padding: 10px 12px; }
+  .gh-section-label { font-size: 9px; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; }
+  .gh-kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .gh-kpi { background: var(--cyan-pale); border: 1px solid var(--border); padding: 7px 8px; }
+  .gh-kpi-label { font-size: 8px; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 3px; }
+  .gh-kpi-val { font-size: 18px; font-weight: 700; line-height: 1; color: var(--cyan); }
+  .gh-kpi-val.amber { color: var(--amber); }
+  .gh-canvassers { flex: 1; overflow-y: auto; }
+  .gh-canvassers::-webkit-scrollbar { width: 3px; }
+  .gh-canvassers::-webkit-scrollbar-track { background: var(--bg); }
+  .gh-canvassers::-webkit-scrollbar-thumb { background: var(--border); }
+  .gh-canvasser { display: flex; align-items: center; gap: 8px; padding: 7px 12px; border-bottom: 1px solid rgba(34,34,34,0.5); }
+  .gh-c-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .gh-c-info { flex: 1; }
+  .gh-c-name { font-weight: 700; font-size: 10px; margin-bottom: 1px; }
+  .gh-c-status { font-size: 8px; letter-spacing: 1px; color: var(--text-dim); }
+  .gh-c-doors { text-align: right; }
+  .gh-c-door-num { font-weight: 700; font-size: 12px; }
+  .gh-c-door-label { font-size: 8px; color: var(--text-dim); letter-spacing: 1px; }
+  .status-on .gh-c-dot { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+  .status-on .gh-c-name, .status-on .gh-c-door-num { color: var(--cyan); }
+  .status-near .gh-c-dot { background: var(--amber); }
+  .status-near .gh-c-name, .status-near .gh-c-door-num { color: var(--amber); }
+  .status-off .gh-c-dot { background: var(--red); }
+  .status-off .gh-c-name, .status-off .gh-c-door-num { color: var(--red); }
+  .gh-activity { padding: 10px 12px; }
+  .gh-activity-item { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; border-bottom: 1px solid rgba(34,34,34,0.4); font-size: 9px; }
+  .gh-activity-item:last-child { border-bottom: none; }
+  .gh-outcome { font-weight: 700; font-size: 8px; letter-spacing: 1px; flex-shrink: 0; width: 28px; }
+  .outcome-sup { color: var(--cyan); }
+  .outcome-nm { color: var(--text-dim); }
+  .outcome-mv { color: var(--amber); }
+  .gh-activity-addr { color: var(--text); flex: 1; }
+  .gh-activity-who { color: var(--text-dim); font-size: 8px; flex-shrink: 0; }
+  .gh-ticker { height: 28px; flex-shrink: 0; background: var(--bg2); border-top: 1px solid var(--border); display: flex; align-items: center; overflow: hidden; }
+  .gh-ticker-prefix { padding: 0 12px; font-size: 9px; letter-spacing: 2px; color: var(--text-dim); border-right: 1px solid var(--border); height: 100%; display: flex; align-items: center; flex-shrink: 0; white-space: nowrap; font-family: 'Space Mono', monospace; }
+  .gh-ticker-track { display: flex; align-items: center; animation: ticker 40s linear infinite; white-space: nowrap; font-family: 'Space Mono', monospace; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .gh-tick-item { padding: 0 20px; font-size: 9px; color: var(--text-dim); border-right: 1px solid var(--border); }
+  .gh-tick-item .tick-outcome { color: var(--cyan); font-weight: 700; }
+  .gh-tick-item .tick-addr { color: var(--text); }
+  .leaflet-tooltip { background: transparent !important; border: none !important; box-shadow: none !important; font-family: 'Space Mono', monospace !important; font-size: 9px !important; font-weight: 700 !important; letter-spacing: 1px !important; text-transform: uppercase !important; color: var(--cyan) !important; padding: 0 !important; }
+  .leaflet-container { background: #0a0a0a !important; }
+  .join-section { background: var(--cyan); padding: 100px 48px; text-align: center; }
+  .join-title { font-size: clamp(32px, 5vw, 56px); font-weight: 700; letter-spacing: -2px; color: #000; margin-bottom: 16px; line-height: 1.05; }
+  .join-sub { font-size: 17px; color: rgba(0,0,0,0.6); margin-bottom: 40px; font-weight: 400; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+  .join-form { display: flex; gap: 10px; max-width: 440px; margin: 0 auto; }
+  .join-input { flex: 1; padding: 14px 18px; border-radius: 8px; border: none; font-size: 15px; font-family: 'Inter', sans-serif; background: rgba(0,0,0,0.12); color: #000; outline: none; }
+  .join-input::placeholder { color: rgba(0,0,0,0.4); }
+  .join-btn { background: #000; color: var(--cyan); padding: 14px 22px; border-radius: 8px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; font-family: 'Inter', sans-serif; white-space: nowrap; }
+  .join-note { font-size: 12px; color: rgba(0,0,0,0.5); margin-top: 16px; }
+  footer { padding: 32px 48px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-size: 16px; font-weight: 700; color: var(--white); }
+  .footer-logo span { color: var(--cyan); }
+  .footer-copy { font-size: 12px; color: var(--text-dim); }
+  .footer-links { display: flex; gap: 20px; list-style: none; }
+  .footer-links a { font-size: 12px; color: var(--text-dim); text-decoration: none; }
+  .footer-links a:hover { color: var(--cyan); }
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; } .nav-links { display: none; } .hero { padding: 100px 24px 60px; } .section { padding: 60px 24px; } .mockups-grid { gap: 32px; } .gh-wrap { margin: 0 24px; height: 480px; } .gh-panel { width: 200px; } .join-section { padding: 60px 24px; } .join-form { flex-direction: column; } footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
 </head>
-
 <body>
-
-<div class="container">
-
-<div class="heroCenter">
-  <h1>Join the GroundHalo Beta.</h1>
-  <p class="sub">
-    We’re onboarding a limited number of campaigns and advocacy teams.
-    Get early access to real-time field visibility — and help shape the product.
-  </p>
+<nav>
+  <a href="https://groundhalo.com" class="nav-logo">
+    <img src="https://www.groundhalo.com/assets/groundhalo_logo_header_64h.png" alt="GroundHalo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+    <span style="display:none; font-size:18px; font-weight:700; color:#fff;">Ground<span style="color:var(--cyan)">Halo</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#mockups">App</a></li>
+    <li><a href="#demo">Live Demo</a></li>
+    <li><a href="#join" class="nav-cta">Join Beta</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="hero-badge gh-blink">Interactive Demo</div>
+  <h1 class="hero-title">See GroundHalo<br><span>in action.</span></h1>
+  <p class="hero-sub">Real-time field visibility for political campaigns and canvass operations. See the app, explore the dashboard, and join the beta.</p>
+  <div class="hero-actions">
+    <a href="#demo" class="btn-primary">View Live Dashboard</a>
+    <a href="#join" class="btn-secondary">Join Beta</a>
+  </div>
+</section>
+<section class="section mockups-section" id="mockups">
+  <p class="section-label">The App</p>
+  <h2 class="section-title">Built for workers in the field.</h2>
+  <p class="section-sub">One tap to start a shift. Automatic pings every 5 minutes. Directors see everything in real time.</p>
+  <div class="mockups-grid">
+<div class="mockup-wrap">
+  <div class="mockup-label">Login</div>
+  <div class="phone-frame">
+    <div class="phone-screen">
+      <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+      <div class="login-screen">
+        <div class="login-logo">📡</div>
+        <div class="login-appname">GroundHalo</div>
+        <div class="login-appsub">Field Operations Tracker</div>
+        <div class="login-form">
+          <div class="login-field-label">Email</div>
+          <div class="login-field">worker@campaign.org</div>
+          <div class="login-field-label">Password</div>
+          <div class="login-field">••••••••</div>
+          <div class="login-btn">Sign In</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="panel">
-<p class="sub" style="margin-top:0;margin-bottom:18px;font-size:14px;">
-Founder-led onboarding • Early access pricing • Direct feedback channel
-</p>
-<form action="https://formspree.io/f/xeelpeya" method="POST">
-
-<label>Your Name</label>
-<input type="text" name="name" required>
-
-<label>Email</label>
-<input type="email" name="email" required>
-
-<label>Organization</label>
-<input type="text" name="organization">
-
-<label>Your Role</label>
-<select name="role">
-  <option>Field Director</option>
-  <option>Campaign Manager</option>
-  <option>Organizer</option>
-  <option>Operations</option>
-  <option>Other</option>
-</select>
-
-<label>Field Team Size</label>
-<select name="team_size">
-  <option>1–5</option>
-  <option>6–15</option>
-  <option>16–35</option>
-  <option>36–75</option>
-  <option>75+</option>
-</select>
-
-<label>What problem are you trying to solve?</label>
-<textarea name="problem" placeholder="Example: We need to know who is actually on shift and who hasn’t pinged."></textarea>
-
-<!-- Anti-spam honeypot -->
-<input type="text" name="_gotcha" style="display:none">
-
-<button type="submit">Join the Beta</button>
-
-</form>
-
+<div class="mockup-wrap">
+  <div class="mockup-label">Shift Active</div>
+  <div class="phone-frame">
+    <div class="phone-screen">
+      <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+      <div class="home-screen">
+        <div class="home-header">
+          <div class="home-title">GroundHalo</div>
+          <div class="home-sub">Good morning, Marcus</div>
+        </div>
+        <div class="home-body">
+          <div class="status-card" id="mockup-card">
+            <div class="status-row"><div class="s-dot s-dot-active" id="mockup-dot"></div><span class="s-label">Shift status</span><span class="s-val">ACTIVE</span></div>
+            <div class="status-row"><div class="s-dot" style="background:var(--cyan);"></div><span class="s-label">Last ping</span><span class="s-val" id="mockup-last-ping">just now</span></div>
+            <div class="status-row"><div class="s-dot" style="background:var(--cyan);"></div><span class="s-label">GPS</span><span class="s-val">Tracking</span></div>
+          </div>
+          <div class="stats-row">
+            <div class="stat-box"><div class="stat-num" id="mockup-pings">14</div><div class="stat-lbl">Pings sent</div></div>
+            <div class="stat-box"><div class="stat-num" id="mockup-time">1:10:04</div><div class="stat-lbl">Shift time</div></div>
+          </div>
+          <div class="home-btn btn-ping">Send Manual Ping</div>
+          <div class="home-btn btn-end">End Shift</div>
+          <div class="next-ping">Next auto-ping in <span id="mockup-countdown">4:32</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<div class="mockup-wrap">
+  <div class="mockup-label">Ready to Start</div>
+  <div class="phone-frame">
+    <div class="phone-screen">
+      <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+      <div class="home-screen">
+        <div class="home-header">
+          <div class="home-title">GroundHalo</div>
+          <div class="home-sub">Good morning, Marcus</div>
+        </div>
+        <div class="home-body">
+          <div class="status-card">
+            <div class="status-row"><div class="s-dot" style="background:#444;"></div><span class="s-label">Shift status</span><span class="s-val" style="color:#555;">INACTIVE</span></div>
+            <div class="status-row"><div class="s-dot" style="background:#444;"></div><span class="s-label">Last ping</span><span class="s-val" style="color:#555;">—</span></div>
+            <div class="status-row"><div class="s-dot" style="background:#444;"></div><span class="s-label">GPS</span><span class="s-val" style="color:#555;">Standby</span></div>
+          </div>
+          <div class="stats-row">
+            <div class="stat-box"><div class="stat-num" style="color:#444;">0</div><div class="stat-lbl">Pings sent</div></div>
+            <div class="stat-box"><div class="stat-num" style="color:#444; font-size:14px;">No shift</div><div class="stat-lbl">Shift time</div></div>
+          </div>
+          <div class="home-btn btn-start">Start Shift</div>
+          <div style="height: 44px;"></div>
+          <div class="next-ping" style="color:#444;">Shift not started</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+  </div>
+</section>
+<section class="demo-section" id="demo">
+  <p class="section-label">Director Dashboard</p>
+  <h2 class="section-title">Live field visibility.</h2>
+  <p class="section-sub">Directors see every worker on the map in real time. Cyan = on turf, yellow = near, red = off turf.</p>
+  <div class="gh-wrap">
+    <div class="gh-header-bar">
+      <div class="gh-logo">
+        <div class="gh-logo-dot gh-blink"></div>
+        <div>
+          <div class="gh-logo-text">GroundHalo</div>
+          <div class="gh-logo-sub">// LIVE OPS</div>
+        </div>
+      </div>
+      <div class="gh-header-meta">
+        <span>BOSTON · DORCHESTER / ROXBURY</span>
+        <span>SHIFT <span id="shift-dur">02:14:33</span></span>
+        <span id="clock">--:--:-- ET</span>
+      </div>
+      <div class="gh-live"><div class="gh-live-dot gh-blink"></div>LIVE</div>
+    </div>
+    <div class="gh-body">
+      <div class="gh-map-wrap">
+        <div id="gh-map"></div>
+        <div class="gh-turf-badges">
+          <div class="gh-turf-badge badge-good"><div class="badge-name">WARD 14 · DORCHESTER</div><div class="badge-count">5/6 ON TURF</div></div>
+          <div class="gh-turf-badge badge-warn"><div class="badge-name">WARD 8 · ROXBURY</div><div class="badge-count">2/4 ON TURF</div></div>
+        </div>
+      </div>
+      <div class="gh-panel">
+        <div class="gh-panel-section">
+          <div class="gh-section-label">// SHIFT METRICS</div>
+          <div class="gh-kpi-grid">
+            <div class="gh-kpi"><div class="gh-kpi-label">DOORS KNOCKED</div><div class="gh-kpi-val" id="kpi-doors">247</div></div>
+            <div class="gh-kpi"><div class="gh-kpi-label">SUPPORTERS</div><div class="gh-kpi-val" id="kpi-sup">89</div></div>
+            <div class="gh-kpi"><div class="gh-kpi-label">CONVERSION</div><div class="gh-kpi-val" id="kpi-conv">36%</div></div>
+            <div class="gh-kpi"><div class="gh-kpi-label">ON TURF</div><div class="gh-kpi-val amber">7/10</div></div>
+          </div>
+        </div>
+        <div class="gh-panel-section" style="padding-bottom:0;"><div class="gh-section-label">// FIELD UNITS</div></div>
+        <div class="gh-canvassers">
+          <div class="gh-canvasser status-on"><div class="gh-c-dot"></div><div class="gh-c-info"><div class="gh-c-name">M. JOHNSON</div><div class="gh-c-status">ON TURF · WARD 14</div></div><div class="gh-c-doors"><div class="gh-c-door-num">34</div><div class="gh-c-door-label">DOORS</div></div></div>
+          <div class="gh-canvasser status-on"><div class="gh-c-dot"></div><div class="gh-c-info"><div class="gh-c-name">T. WILLIAMS</div><div class="gh-c-status">ON TURF · WARD 14</div></div><div class="gh-c-doors"><div class="gh-c-door-num">29</div><div class="gh-c-door-label">DOORS</div></div></div>
+          <div class="gh-canvasser status-on"><div class="gh-c-dot"></div><div class="gh-c-info"><div class="gh-c-name">A. PIERCE</div><div class="gh-c-status">ON TURF · WARD 14</div></div><div class="gh-c-doors"><div class="gh-c-door-num">31</div><div class="gh-c-door-label">DOORS</div></div></div>
+          <div class="gh-canvasser status-on"><div class="gh-c-dot"></div><div class="gh-c-info"><div class="gh-c-name">D. SANTOS</div><div class="gh-c-status">ON TURF · WARD 8</div></div><div class="gh-c-doors"><div class="gh-c-door-num">27</div><div class="gh-c-door-label">DOORS</div></div></div>
+          <div class="gh-canvasser status-near"><div class="gh-c-dot"></div><div class="gh-c-info"><div class="gh-c-name">R. CHEN</div><div class="gh-c-status">NEAR · WARD 14</div></div><div class="gh-c-doors"><div class="gh-c-door-num">22</div><div class="gh-c-door-label">DOORS</div></div></div>
+          <div class="gh-canvasser status-near"><div class="gh-c-dot"></div><div class="gh-c-info"><div class="gh-c-name">K. OKAFOR</div><div class="gh-c-status">NEAR · WARD 8</div></div><div class="gh-c-doors"><div class="gh-c-door-num">18</div><div class="gh-c-door-label">DOORS</div></div></div>
+          <div class="gh-canvasser status-off"><div class="gh-c-dot"></div><div class="gh-c-info"><div class="gh-c-name">J. RIVERA</div><div class="gh-c-status">OFF TURF · LAST: 14M</div></div><div class="gh-c-doors"><div class="gh-c-door-num">19</div><div class="gh-c-door-label">DOORS</div></div></div>
+          <div class="gh-canvasser status-off"><div class="gh-c-dot"></div><div class="gh-c-info"><div class="gh-c-name">P. NGUYEN</div><div class="gh-c-status">OFF TURF · LAST: 22M</div></div><div class="gh-c-doors"><div class="gh-c-door-num">15</div><div class="gh-c-door-label">DOORS</div></div></div>
+        </div>
+        <div class="gh-activity">
+          <div class="gh-section-label">// RECENT ACTIVITY</div>
+          <div class="gh-activity-item"><span class="gh-outcome outcome-sup">SUP</span><span class="gh-activity-addr">142 Bowdoin St</span><span class="gh-activity-who">JOHNSON · 2m</span></div>
+          <div class="gh-activity-item"><span class="gh-outcome outcome-nm">N/M</span><span class="gh-activity-addr">87 Intervale St</span><span class="gh-activity-who">PIERCE · 3m</span></div>
+          <div class="gh-activity-item"><span class="gh-outcome outcome-sup">SUP</span><span class="gh-activity-addr">23 Ruthven St</span><span class="gh-activity-who">WILLIAMS · 5m</span></div>
+          <div class="gh-activity-item"><span class="gh-outcome outcome-mv">MOV</span><span class="gh-activity-addr">310 Blue Hill Ave</span><span class="gh-activity-who">SANTOS · 7m</span></div>
+          <div class="gh-activity-item"><span class="gh-outcome outcome-nm">N/M</span><span class="gh-activity-addr">58 Castlegate Rd</span><span class="gh-activity-who">CHEN · 9m</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="gh-ticker">
+      <div class="gh-ticker-prefix">LIVE ▶</div>
+      <div style="overflow:hidden; flex:1;"><div class="gh-ticker-track" id="ticker-track"></div></div>
+    </div>
+  </div>
+</section>
+<section class="join-section" id="join">
+  <h2 class="join-title">Ready to see your field?</h2>
+  <p class="join-sub">Join a limited number of teams in the GroundHalo beta. Founder-led onboarding included.</p>
+  <form class="join-form" onsubmit="handleJoin(event)">
+    <input type="email" class="join-input" placeholder="Your email address" required>
+    <button type="submit" class="join-btn">Join Beta</button>
+  </form>
+  <p class="join-note">Founder-led onboarding · Early access · Limited teams</p>
+</section>
+<footer>
+  <div class="footer-logo">Ground<span>Halo</span></div>
+  <p class="footer-copy">© 2026 GroundHalo. Built in Boston.</p>
+  <ul class="footer-links">
+    <li><a href="https://groundhalo.com">Home</a></li>
+    <li><a href="mailto:hello@groundhalo.com">Contact</a></li>
+  </ul>
+</footer>
+<script>
+function updateClock() {
+  const now = new Date();
+  const et = new Date(now.toLocaleString('en-US',{timeZone:'America/New_York'}));
+  const h=String(et.getHours()).padStart(2,'0'),m=String(et.getMinutes()).padStart(2,'0'),s=String(et.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent=h+':'+m+':'+s+' ET';
+}
+setInterval(updateClock,1000); updateClock();
 
+let shiftSecs=8073;
+function updateShift(){shiftSecs++;const h=String(Math.floor(shiftSecs/3600)).padStart(2,'0'),m=String(Math.floor((shiftSecs%3600)/60)).padStart(2,'0'),s=String(shiftSecs%60).padStart(2,'0');document.getElementById('shift-dur').textContent=h+':'+m+':'+s;}
+setInterval(updateShift,1000);
+
+const tickItems=[{outcome:'SUP',addr:'142 Bowdoin St',who:'JOHNSON',time:'2m'},{outcome:'N/M',addr:'87 Intervale St',who:'PIERCE',time:'3m'},{outcome:'SUP',addr:'23 Ruthven St',who:'WILLIAMS',time:'5m'},{outcome:'MOV',addr:'310 Blue Hill Ave',who:'SANTOS',time:'7m'},{outcome:'N/M',addr:'58 Castlegate Rd',who:'CHEN',time:'9m'},{outcome:'SUP',addr:'19 Westville St',who:'OKAFOR',time:'11m'},{outcome:'REF',addr:'204 Quincy St',who:'JOHNSON',time:'13m'},{outcome:'SUP',addr:'77 Devon St',who:'PIERCE',time:'15m'}];
+function buildTicker(){const track=document.getElementById('ticker-track');const colorMap={SUP:'#00c8d4',MOV:'#ffd700','N/M':'rgba(255,255,255,0.35)',REF:'#ff4455'};let html='';[...tickItems,...tickItems].forEach(t=>{const c=colorMap[t.outcome]||'rgba(255,255,255,0.35)';html+='<span class="gh-tick-item"><span class="tick-outcome" style="color:'+c+'">['+t.outcome+']</span> <span class="tick-addr">'+t.addr+'</span> · '+t.who+' · '+t.time+'</span>';});track.innerHTML=html;}
+buildTicker();
+
+const map=L.map('gh-map',{center:[42.305,-71.075],zoom:14,zoomControl:false,attributionControl:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+[{center:[42.308,-71.068],radius:600},{center:[42.298,-71.085],radius:550}].forEach(t=>{L.circle(t.center,{radius:t.radius,color:'#00c8d4',weight:1,dashArray:'5,8',fillColor:'#00c8d4',fillOpacity:0.04}).addTo(map);});
+const statusColors={on:'#00c8d4',near:'#ffd700',off:'#ff4455'};
+const canvassers=[{name:'JOHNSON',pos:[42.310,-71.065],status:'on'},{name:'WILLIAMS',pos:[42.306,-71.070],status:'on'},{name:'PIERCE',pos:[42.312,-71.062],status:'on'},{name:'SANTOS',pos:[42.296,-71.082],status:'on'},{name:'CHEN',pos:[42.304,-71.058],status:'near'},{name:'OKAFOR',pos:[42.302,-71.090],status:'near'},{name:'RIVERA',pos:[42.315,-71.052],status:'off'},{name:'NGUYEN',pos:[42.290,-71.095],status:'off'}];
+canvassers.forEach(c=>{const color=statusColors[c.status];c.marker=L.circleMarker(c.pos,{radius:10,color:'#000',weight:2,fillColor:color,fillOpacity:1}).addTo(map);c.marker.bindTooltip(c.name,{permanent:true,direction:'top',offset:[0,-12],className:'gh-tooltip'});c.marker.on('add',()=>{const el=c.marker.getTooltip()._container;if(el)el.style.color=color;});});
+setInterval(()=>{canvassers.forEach(c=>{c.pos=[c.pos[0]+(Math.random()-0.5)*0.0004,c.pos[1]+(Math.random()-0.5)*0.0004];c.marker.setLatLng(c.pos);});},3000);
+let doors=247,sup=89;
+setInterval(()=>{if(Math.random()>0.6){doors++;if(Math.random()>0.6)sup++;document.getElementById('kpi-doors').textContent=doors;document.getElementById('kpi-sup').textContent=sup;const conv=Math.round((sup/doors)*100);document.getElementById('kpi-conv').textContent=conv+'%';}},8000);
+
+let mockupSecs=272,mockupShiftSecs=4204,mockupPings=14,mockupLastPingSecs=0;
+function updateMockup(){mockupSecs--;mockupShiftSecs++;mockupLastPingSecs++;const h=String(Math.floor(mockupShiftSecs/3600)).padStart(1,'0'),m=String(Math.floor((mockupShiftSecs%3600)/60)).padStart(2,'0'),s=String(mockupShiftSecs%60).padStart(2,'0');document.getElementById('mockup-time').textContent=h+':'+m+':'+s;const cm=String(Math.floor(mockupSecs/60)).padStart(1,'0'),cs=String(mockupSecs%60).padStart(2,'0');document.getElementById('mockup-countdown').textContent=cm+':'+cs;if(mockupLastPingSecs<60){document.getElementById('mockup-last-ping').textContent='just now';}else{document.getElementById('mockup-last-ping').textContent=Math.floor(mockupLastPingSecs/60)+' min ago';}if(mockupSecs<=0){mockupSecs=300;mockupPings++;mockupLastPingSecs=0;document.getElementById('mockup-pings').textContent=mockupPings;const card=document.getElementById('mockup-card');card.classList.add('ping-flash');setTimeout(()=>card.classList.remove('ping-flash'),400);}}
+setInterval(updateMockup,1000);
+
+function handleJoin(e){e.preventDefault();const btn=e.target.querySelector('button'),input=e.target.querySelector('input');btn.textContent='✓ You\'re in!';btn.style.background='#00c8d4';btn.style.color='#000';input.value='';input.disabled=true;btn.disabled=true;}
+</script>
 </body>
 </html>
